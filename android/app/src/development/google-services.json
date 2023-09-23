@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "530885982384",
+    "project_id": "moodflix-dev",
+    "storage_bucket": "moodflix-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530885982384:android:d4af5b2a941f78e62b2375",
+        "android_client_info": {
+          "package_name": "fr.moodflix.mobile.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8IsQKIjB66MA60tofebSKgccz7eRyPYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

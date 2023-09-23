@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "829508842195",
+    "project_id": "moodflix-687cb",
+    "storage_bucket": "moodflix-687cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829508842195:android:adb090f927038d64871a26",
+        "android_client_info": {
+          "package_name": "fr.moodflix.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJcR1gJKT3X1D693cS5LWubsAnt4EBd6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

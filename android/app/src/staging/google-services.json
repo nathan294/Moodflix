@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "175496429174",
+    "project_id": "moodflix-stage",
+    "storage_bucket": "moodflix-stage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175496429174:android:a2ca249934ea8318e72957",
+        "android_client_info": {
+          "package_name": "fr.moodflix.mobile.stg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQdwPoLMc-mWnwmse8TttE4jMj2B8ghrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

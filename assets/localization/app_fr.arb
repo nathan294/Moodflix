@@ -1,0 +1,11 @@
+{
+  "appTitle": "Moodflix",
+  "@appTitle": {
+    "description": "Le titre de l'application"
+  },
+
+  "itemDetail": "Plus d'informations ici",
+  "@itemDetail": {
+    "description": "Texte présent dans le détail d'un item"
+  }
+}
