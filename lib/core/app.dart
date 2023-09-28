@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       // Theme of the app
       theme: MoodflixTheme.moodflixLightTheme,
       darkTheme: MoodflixTheme.moodflixDarkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
 
       // Navigation
       routerConfig: router,

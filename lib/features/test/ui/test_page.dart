@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -35,7 +36,12 @@ class TestPage extends StatelessWidget {
                 onPressed: () {
                   // context.push("/onboarding");
                 },
-                child: const Text("Page onboarding"))
+                child: const Text("Page onboarding")),
+            ElevatedButton(
+                onPressed: () {
+                  context.push("/test_animation");
+                },
+                child: const Text('Test animation')),
           ],
         ),
       ),
