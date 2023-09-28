@@ -5,8 +5,10 @@ import 'package:moodflix/core/app_navigation_bar.dart';
 import 'package:moodflix/features/collection/ui/collection_page.dart';
 import 'package:moodflix/features/discover/ui/discover_page.dart';
 import 'package:moodflix/features/home/ui/home_page.dart';
+import 'package:moodflix/features/movie_search/movie_search.dart';
 import 'package:moodflix/features/profile/ui/profile_page.dart';
 import 'package:moodflix/features/settings/ui/settings_page.dart';
+import 'package:moodflix/features/test/ui/test_animation.dart';
 import 'package:moodflix/features/test/ui/test_page.dart';
 
 // private navigators
@@ -79,6 +81,11 @@ final router = GoRouter(
       //   builder: (context, state) => const OnboardingPage(),
       // ),
       GoRoute(
+        name: 'search_page',
+        path: '/search_page',
+        builder: (context, state) => const MovieSearch(),
+      ),
+      GoRoute(
         name: 'settings',
         path: '/settings',
         pageBuilder: (context, state) => CustomTransitionPage<void>(
@@ -94,6 +101,11 @@ final router = GoRouter(
         name: 'test',
         path: '/test',
         builder: (context, state) => const TestPage(),
+      ),
+      GoRoute(
+        name: 'test_animation',
+        path: '/test_animation',
+        builder: (context, state) => const FirstPage(),
       ),
     ],
 
