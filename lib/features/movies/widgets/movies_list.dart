@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moodflix/features/movie_search/models/movie.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moodflix/features/movies/models/movie.dart';
 
 class MoviesList extends StatelessWidget {
   final List<Movie> movies;
@@ -26,6 +27,7 @@ class MoviesList extends StatelessWidget {
             subtitle: Text("${movie.releaseYear}"),
             onTap: () {
               // Navigate to the movie details or do something else
+              context.push('/movie/${movie.id}', extra: movie);
             },
           ),
         );

@@ -5,7 +5,9 @@ import 'package:moodflix/core/app_navigation_bar.dart';
 import 'package:moodflix/features/collection/ui/collection_page.dart';
 import 'package:moodflix/features/discover/ui/discover_page.dart';
 import 'package:moodflix/features/home/ui/home_page.dart';
-import 'package:moodflix/features/movie_search/movie_search.dart';
+import 'package:moodflix/features/movies/models/movie.dart';
+import 'package:moodflix/features/movies/movie_details/ui/movie_detail_page.dart';
+import 'package:moodflix/features/movies/movie_search/movie_search.dart';
 import 'package:moodflix/features/profile/ui/profile_page.dart';
 import 'package:moodflix/features/settings/ui/settings_page.dart';
 import 'package:moodflix/features/test/ui/test_animation.dart';
@@ -85,6 +87,12 @@ final router = GoRouter(
         path: '/search_page',
         builder: (context, state) => const MovieSearch(),
       ),
+      GoRoute(
+          path: '/movie/:id',
+          builder: (context, state) {
+            Movie movie = state.extra as Movie;
+            return MovieDetailPage(movie: movie);
+          }),
       GoRoute(
         name: 'settings',
         path: '/settings',

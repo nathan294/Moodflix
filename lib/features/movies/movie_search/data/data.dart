@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:moodflix/config/app_config.dart';
-import 'package:moodflix/features/movie_search/models/movie.dart';
+import 'package:moodflix/features/movies/models/movie.dart';
 
 Future<http.Response> getMovies(String text, BuildContext context) async {
   return http.get(
