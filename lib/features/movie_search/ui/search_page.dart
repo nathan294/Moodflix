@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/features/movie_search/bloc/bloc.dart';
@@ -13,6 +15,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   late FocusNode myFocusNode;
   TextEditingController myController = TextEditingController();
+  Timer? debounceTimer;
 
   @override
   void initState() {
@@ -54,9 +57,18 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     hintText: 'Search...',
                     border: InputBorder.none),
-                onChanged: (value) => context
-                    .read<MovieSearchBloc>()
-                    .add(TextChangeEvent(text: myController.text)),
+                onChanged: (value) {
+                  // Cancel the previous timer if it exists
+                  debounceTimer?.cancel();
+
+                  // Start a new timer
+                  debounceTimer = Timer(Duration(milliseconds: 300), () {
+                    // Trigger your event
+                    context
+                        .read<MovieSearchBloc>()
+                        .add(TextChangeEvent(text: myController.text));
+                  });
+                },
               ),
             ),
             body: _buildBody(state),

@@ -12,7 +12,7 @@ class MoviesList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         final movie = movies[index];
         String leadingImage = movie.posterPath != null
-            ? "https://image.tmdb.org/t/p/original${movie.posterPath}"
+            ? movie.posterPath!
             : "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png"; // Replace with the URL of your image with an interrogation point
 
         return Card(
