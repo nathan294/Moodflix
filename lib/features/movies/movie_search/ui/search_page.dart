@@ -6,7 +6,7 @@ import 'package:moodflix/features/movies/movie_search/bloc/bloc.dart';
 import 'package:moodflix/features/movies/widgets/movies_list.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({super.key});
+  const SearchPage({super.key});
 
   @override
   _SearchPageState createState() => _SearchPageState();
