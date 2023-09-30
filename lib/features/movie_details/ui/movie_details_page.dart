@@ -27,9 +27,9 @@ class MovieDetailsPage extends StatelessWidget {
                 expandedHeight: 200,
                 flexibleSpace: FlexibleSpaceBar(
                   background: ShimmerImagePlaceholder(
-                    imageUrl: movie.backdropPath ??
-                        'https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png',
-                  ),
+                      imageUrl: movie.backdropPath ??
+                          'https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png',
+                      fit: BoxFit.cover),
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,

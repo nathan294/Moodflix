@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moodflix/features/movie_details/bloc/bloc.dart';
+import 'package:moodflix/features/movie_details/widgets/movie_title_row.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -34,11 +35,11 @@ List<Widget> buildBody(Movie movie, MovieDetailsState state) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ID: ${movie.id}'),
-            Text('Title: ${movie.title}'),
-            Text("Genres: ${state.genreName.join(', ')}"),
-            Text('Overview: ${movie.overview}'),
-            Text('Release Year: ${movie.releaseYear}'),
+            MovieTitleRowWidget(movie: movie, state: state),
+            const SizedBox(
+              height: 30,
+            ),
+            Text(movie.overview),
             Text('Popularity: ${movie.popularity}'),
             Text('Vote Average: ${movie.voteAverage}'),
             Text('Vote Count: ${movie.voteCount}'),
