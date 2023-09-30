@@ -9,6 +9,6 @@ class MovieSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => MovieSearchBloc(context), child: SearchPage());
+        create: (_) => MovieSearchBloc(context), child: const SearchPage());
   }
 }

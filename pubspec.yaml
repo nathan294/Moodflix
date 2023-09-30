@@ -11,6 +11,7 @@ environment:
 
 dependencies:
   country_code_picker: ^3.0.0
+  dio: ^5.3.3
   firebase_auth: ^4.7.2
   firebase_core: ^2.15.0
   flutter:
@@ -19,9 +20,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   go_router: ^10.1.2
-  http: ^1.1.0
   intl: any
   logger: ^2.0.2
+  provider: ^6.0.5
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -38,4 +40,3 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
-    - assets/images/login/
