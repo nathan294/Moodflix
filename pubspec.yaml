@@ -23,6 +23,7 @@ dependencies:
   intl: any
   logger: ^2.0.2
   provider: ^6.0.5
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -39,4 +40,3 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
-    - assets/images/login/
