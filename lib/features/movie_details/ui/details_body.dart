@@ -14,15 +14,53 @@ List<Widget> buildBody(Movie movie, MovieDetailsState state) {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: List<Widget>.generate(
-              8, // Number of shimmer lines
-              (index) => Container(
+            children: [
+              // Mimic the title
+              Container(
                 width: double.infinity,
-                height: 20.0,
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                height: 30.0,
                 color: Colors.grey[300],
               ),
-            ),
+              const SizedBox(height: 8),
+              // Mimic the genre and year
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 20.0,
+                    color: Colors.grey[300],
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    width: 40,
+                    height: 20.0,
+                    color: Colors.grey[300],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              // Mimic the AvgNoteWidget
+              Container(
+                width: 50,
+                height: 50.0,
+                color: Colors.grey[300],
+              ),
+              const SizedBox(height: 30),
+              // Mimic the overview
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List<Widget>.generate(
+                  8, // Number of shimmer lines for overview
+                  (index) => Container(
+                    width: double.infinity,
+                    height: 20.0,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

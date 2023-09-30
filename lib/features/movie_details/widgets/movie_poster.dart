@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moodflix/core/widgets/shimmer_image.dart';
 
 class MoviePosterWidget extends StatelessWidget {
   final String imageUrl;
@@ -26,10 +27,7 @@ class MoviePosterWidget extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
-        ),
+        child: ShimmerImagePlaceholder(imageUrl: imageUrl, fit: BoxFit.cover),
       ),
     );
   }
