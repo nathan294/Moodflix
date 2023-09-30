@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/core/widgets/shimmer_image.dart';
-import 'package:moodflix/features/movies/models/movie.dart';
-import 'package:moodflix/features/movies/movie_details/bloc/bloc.dart';
+import 'package:moodflix/features/movie_details/bloc/bloc.dart';
+import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MovieDetailsPage extends StatelessWidget {

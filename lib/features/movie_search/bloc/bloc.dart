@@ -4,8 +4,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moodflix/features/movies/models/movie.dart';
-import 'package:moodflix/features/movies/movie_search/data/data.dart';
+import 'package:moodflix/features/movie_search/models/movie.dart';
+import 'package:moodflix/features/movie_search/data/data.dart';
 
 part 'event.dart';
 part 'state.dart';

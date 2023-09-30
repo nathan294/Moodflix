@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:moodflix/config/app_config.dart';
-import 'package:moodflix/features/movies/models/movie.dart';
+import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:provider/provider.dart';
 
 Future<Response<dynamic>> getMovies(String text, BuildContext context) async {

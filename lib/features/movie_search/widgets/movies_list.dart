@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:moodflix/features/movies/models/movie.dart';
+import 'package:moodflix/features/movie_search/models/movie.dart';
 
 class MoviesList extends StatelessWidget {
   final List<Movie> movies;

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:moodflix/features/movies/movie_details/data/data.dart';
+import 'package:moodflix/features/movie_details/data/data.dart';
 
 part 'event.dart';
 part 'state.dart';
