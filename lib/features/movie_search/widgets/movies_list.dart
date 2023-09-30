@@ -13,10 +13,16 @@ class MoviesList extends StatelessWidget {
     final sortedMovies = List.from(movies)
       ..sort((a, b) => b.popularity.compareTo(a.popularity));
 
+    // Number of items
+    final int itemCount = sortedMovies.length;
+    // Height of an item
+    const double itemHeight = 90.0;
+
     return ListView.separated(
-      itemCount: sortedMovies.length,
+      cacheExtent: itemCount * itemHeight,
+      itemCount: itemCount,
       separatorBuilder: (context, index) => const Divider(
-        height: 20, // Adjust the height to control spacing
+        height: 5, // Adjust the height to control spacing
         color: Color.fromARGB(
             255, 205, 205, 205), // Optional: Set color for the divider
       ),
@@ -32,7 +38,7 @@ class MoviesList extends StatelessWidget {
             context.push('/movie/${movie.id}', extra: movie);
           },
           child: SizedBox(
-            height: 80, // specify the height
+            height: itemHeight, // specify the height
             child: Row(
               crossAxisAlignment:
                   CrossAxisAlignment.stretch, // stretch to full height
@@ -45,7 +51,7 @@ class MoviesList extends StatelessWidget {
                     width: 60, // adjust the width as needed
                     child: ShimmerImagePlaceholder(
                       imageUrl: leadingImage,
-                      fit: BoxFit.cover, // cover the entire space
+                      fit: BoxFit.fitHeight, // cover the entire space
                     ),
                   ),
                 ),
