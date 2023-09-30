@@ -6,7 +6,7 @@ import 'package:moodflix/features/collection/ui/collection_page.dart';
 import 'package:moodflix/features/discover/ui/discover_page.dart';
 import 'package:moodflix/features/home/ui/home_page.dart';
 import 'package:moodflix/features/movies/models/movie.dart';
-import 'package:moodflix/features/movies/movie_details/ui/movie_detail_page.dart';
+import 'package:moodflix/features/movies/movie_details/movie_details.dart';
 import 'package:moodflix/features/movies/movie_search/movie_search.dart';
 import 'package:moodflix/features/profile/ui/profile_page.dart';
 import 'package:moodflix/features/settings/ui/settings_page.dart';
@@ -91,7 +91,7 @@ final router = GoRouter(
           path: '/movie/:id',
           builder: (context, state) {
             Movie movie = state.extra as Movie;
-            return MovieDetailPage(movie: movie);
+            return MovieDetails(movie: movie);
           }),
       GoRoute(
         name: 'settings',
