@@ -31,6 +31,7 @@ class MoviesList extends StatelessWidget {
                   leading: child,
                   title: Text(movie.title),
                   subtitle: Text("${movie.releaseYear}"),
+                  trailing: movieAverageNote(movie),
                   onTap: () {
                     // Navigate to the movie details or do something else
                     context.push('/movie/${movie.id}', extra: movie);
@@ -46,4 +47,22 @@ class MoviesList extends StatelessWidget {
       },
     );
   }
+}
+
+Widget movieAverageNote(Movie movie) {
+  return Container(
+    width: 25.0,
+    height: 25.0,
+    decoration: const BoxDecoration(
+      color: Colors.blue,
+      shape: BoxShape.circle,
+    ),
+    child: Center(
+      child: Text(
+        movie.voteAverage.toStringAsFixed(1),
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    ),
+  );
 }
