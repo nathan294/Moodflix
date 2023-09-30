@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +29,6 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
       // Get movies list from our API
       Response<dynamic> responseGet = await getMovies(event.text, context);
       if (responseGet.statusCode == 200) {
-        print(responseGet.data); // Log the response data
-
         // Parse the JSON response
         final List<dynamic> jsonResponse = responseGet.data as List<dynamic>;
 
@@ -36,21 +36,33 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
         final List<Movie> movies =
             jsonResponse.map((json) => Movie.fromJson(json)).toList();
 
-        // Explicitly ensure that titles & overviews are UTF-8 encoded
-        // final modifiedMovies = movies.map((movie) {
-        //   final utf8Title = utf8.decode(latin1.encode(movie.title));
-        //   final utf8Overview = utf8.decode(latin1.encode(movie.overview));
-        //   return movie.copyWith(title: utf8Title, overview: utf8Overview);
-        // return movie.copyWith();
-        // }).toList();
+        // List to hold all the prefetch image futures
+        final List<Future<void>> imageFutures = [];
+
+        for (final movie in movies) {
+          if (movie.posterPath != null) {
+            // Prefetch each image and add the future to the list
+            final imageUrl = movie
+                .posterPath; // Adjust this if necessary to get the full URL
+            final imageFuture = precacheImage(NetworkImage(imageUrl!), context);
+            imageFutures.add(imageFuture);
+          }
+          // For movies without posterPath
+          const imageUrl =
+              "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png"; // Adjust this if necessary to get the full URL
+          final imageFuture =
+              precacheImage(const NetworkImage(imageUrl), context);
+          imageFutures.add(imageFuture);
+        }
+
+        // Wait for all image prefetch operations to complete
+        await Future.wait(imageFutures);
 
         // Emit the new state with the loaded movies
         emit(MoviesLoadedState(movies: movies));
 
         // Send movies to our database
-        Response responsePost =
-            // ignore: use_build_context_synchronously
-            await sendMoviesToDatabase(movies, context);
+        Response responsePost = await sendMoviesToDatabase(movies, context);
         print(responsePost);
       }
     } on Exception catch (e, s) {
