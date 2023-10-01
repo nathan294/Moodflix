@@ -74,13 +74,12 @@ List<Widget> buildBody(Movie movie, MovieDetailsState state) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MovieTitleRowWidget(movie: movie, state: state),
-            const SizedBox(
-              height: 30,
+            Text(state.genreName.join(', '),
+                style: const TextStyle(fontStyle: FontStyle.italic)),
+            Text(
+              "Date de sortie : ${movie.releaseYear.toString()}\n",
             ),
-            Text(movie.overview),
-            Text('Popularity: ${movie.popularity}'),
-            Text('Vote Average: ${movie.voteAverage}'),
-            Text('Vote Count: ${movie.voteCount}'),
+            Text("Synopsis : ${movie.overview}"),
           ],
         ),
       ),
