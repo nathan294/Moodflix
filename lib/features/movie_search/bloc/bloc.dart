@@ -29,6 +29,11 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
       if (responseGet.statusCode == 200) {
         // Parse the JSON response
         final List<dynamic> jsonResponse = responseGet.data as List<dynamic>;
+        print('JSON Response: $jsonResponse');
+        jsonResponse.forEach((json) {
+          print('Parsing: $json');
+          Movie.fromJson(json);
+        });
 
         // Convert to a list of Movie objects
         final List<Movie> movies =

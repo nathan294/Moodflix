@@ -20,8 +20,8 @@ class MoviePosterWidget extends StatelessWidget {
       width: height * 2 / 3, // Maintain a 2:3 aspect ratio
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.black,
-          width: 1.0,
+          color: Colors.grey,
+          width: 0.5,
         ),
         borderRadius: BorderRadius.circular(12.0),
       ),

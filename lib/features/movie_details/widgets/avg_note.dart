@@ -12,27 +12,32 @@ class AvgNoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: 100, // adjust size as needed
-          height: 100, // adjust size as needed
-          child: Stack(
-            alignment: Alignment.center, // This will center align the children
-            children: [
-              CircularProgressIndicator(
+        Stack(
+          alignment: Alignment.center, // This will center align the children
+          children: [
+            SizedBox(
+              height: 60,
+              width: 60,
+              child: CircularProgressIndicator(
                 value: value / 10, // set the value
                 backgroundColor: Colors.grey[200],
-                strokeWidth: 5.0,
+                strokeWidth: 8.0,
                 valueColor: AlwaysStoppedAnimation<Color>(_fillColor(value)),
               ),
-              Center(
-                  child: Text(
-                value.toStringAsFixed(1),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              )), // Now the Text is centered
-            ],
-          ),
+            ),
+            Center(
+                child: Column(
+              children: [
+                Text(
+                  value.toStringAsFixed(1),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold, height: 1),
+                ),
+                const Text("Note", style: TextStyle(fontSize: 11)),
+              ],
+            )), // Now the Text is centered
+          ],
         ),
-        const Text("Note"),
       ],
     );
   }
