@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moodflix/features/movie_search/bloc/bloc.dart';
+import 'package:moodflix/features/movie_search/bloc/search_bloc.dart';
 import 'package:moodflix/features/movie_search/ui/search_page.dart';
 
 class MovieSearch extends StatelessWidget {

@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:moodflix/features/movie_details/data/data.dart';
 
-part 'event.dart';
-part 'state.dart';
+part 'details_event.dart';
+part 'details_state.dart';
 
 class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   final BuildContext context;

@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:moodflix/features/movie_search/data/data.dart';
 
-part 'event.dart';
-part 'state.dart';
+part 'search_event.dart';
+part 'search_state.dart';
 
 class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
   final BuildContext context;

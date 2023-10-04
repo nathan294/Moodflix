@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moodflix/features/movie_details/bloc/bloc.dart';
+import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/widgets/movie_poster.dart';
 import 'package:moodflix/features/movie_details/widgets/avg_note.dart';
 import 'package:moodflix/features/movie_details/widgets/popularity_score.dart';
