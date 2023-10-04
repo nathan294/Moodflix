@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+// import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -27,9 +26,9 @@ class ParsedMovies {
 }
 
 Future<ParsedMovies> parseAndPrecacheMovies(
-    String jsonString, BuildContext context) async {
+    Map<String, dynamic> jsonResponse, BuildContext context) async {
   // Load your JSON (for demonstration purposes, loading it from assets)
-  Map<String, dynamic> jsonResponse = jsonDecode(jsonString);
+  // Map<String, dynamic> jsonResponse = jsonDecode(jsonString);
 
   List<Movie> popularMovies = (jsonResponse['popular'] as List)
       .map((item) => Movie.fromJson(item))

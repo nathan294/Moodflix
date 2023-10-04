@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moodflix/features/home/ui/page_body.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Accueil"),
         actions: [
           IconButton(
               onPressed: () {
@@ -17,7 +18,7 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.search))
         ],
       ),
-      body: const Center(child: Text("Home")),
+      body: const HomeBody(),
     );
   }
 }
