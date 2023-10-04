@@ -30,12 +30,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         // Emit the DataLoadedState
         emit(DataLoadedState(
-          popularMovies:
-              parsedMovies.popularMovies, // Replace with your actual data
-          nowPlayingMovies:
-              parsedMovies.nowPlayingMovies, // Replace with your actual data
-          upcomingMovies:
-              parsedMovies.upcomingMovies, // Replace with your actual data
+          popularMovies: parsedMovies.popularMovies,
+          nowPlayingMovies: parsedMovies.nowPlayingMovies,
+          upcomingMovies: parsedMovies.upcomingMovies,
         ));
       } else {
         // Handle other status codes here
