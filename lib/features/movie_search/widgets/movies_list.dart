@@ -30,7 +30,7 @@ class MoviesList extends StatelessWidget {
         final movie = sortedMovies[index];
         String leadingImage = movie.posterPath != null
             ? movie.posterPath!
-            : "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png"; // Replace with the URL of your image with an interrogation point
+            : "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png"; // Image of an interrogation point
 
         return InkWell(
           onTap: () {
