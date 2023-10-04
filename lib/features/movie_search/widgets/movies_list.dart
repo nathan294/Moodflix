@@ -10,8 +10,8 @@ class MoviesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Sort the movies by popularity in descending order
-    final sortedMovies = List.from(movies)
-      ..sort((a, b) => b.popularity.compareTo(a.popularity));
+    final sortedMovies = List.from(movies);
+    // ..sort((a, b) => b.popularity.compareTo(a.popularity));
 
     // Number of items
     final int itemCount = sortedMovies.length;

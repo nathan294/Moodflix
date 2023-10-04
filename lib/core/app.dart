@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moodflix/config/router.dart';
+import 'package:moodflix/core/bloc_providers.dart';
 import '../config/theme.dart';
 
 import '../config/app_config.dart';
@@ -16,43 +17,45 @@ class MyApp extends StatelessWidget {
     // environment specific configuration
     var config = AppConfig.of(context)!;
 
-    return MaterialApp.router(
-      // Provide the generated AppLocalizations to the MaterialApp. This
-      // allows descendant Widgets to display the correct translations
-      // depending on the user's locale.
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('fr'), // Français
-      ],
+    return BlocProviders(
+      child: MaterialApp.router(
+        // Provide the generated AppLocalizations to the MaterialApp. This
+        // allows descendant Widgets to display the correct translations
+        // depending on the user's locale.
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'), // English
+          Locale('fr'), // Français
+        ],
 
-      // Verify device locale with Flutter App’s supported Locale.
-      // It checks that if app supports the user’s device locale or not.
-      // If not then, simply return the default English locale.
-      localeResolutionCallback: (deviceLocale, supportedLocales) {
-        for (var locale in supportedLocales) {
-          if (locale.languageCode == deviceLocale!.languageCode) {
-            return deviceLocale;
+        // Verify device locale with Flutter App’s supported Locale.
+        // It checks that if app supports the user’s device locale or not.
+        // If not then, simply return the default English locale.
+        localeResolutionCallback: (deviceLocale, supportedLocales) {
+          for (var locale in supportedLocales) {
+            if (locale.languageCode == deviceLocale!.languageCode) {
+              return deviceLocale;
+            }
           }
-        }
-        return supportedLocales.first;
-      },
+          return supportedLocales.first;
+        },
 
-      // Title of the app
-      title: config.appName,
+        // Title of the app
+        title: config.appName,
 
-      // Theme of the app
-      theme: MoodflixTheme.moodflixLightTheme,
-      darkTheme: MoodflixTheme.moodflixDarkTheme,
-      themeMode: ThemeMode.light,
+        // Theme of the app
+        theme: MoodflixTheme.moodflixLightTheme,
+        darkTheme: MoodflixTheme.moodflixDarkTheme,
+        themeMode: ThemeMode.light,
 
-      // Navigation
-      routerConfig: router,
+        // Navigation
+        routerConfig: router,
+      ),
     );
   }
 }
