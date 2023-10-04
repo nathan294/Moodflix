@@ -1,4 +1,4 @@
-part of 'bloc.dart';
+part of 'details_bloc.dart';
 
 @immutable
 sealed class MovieDetailsState {}

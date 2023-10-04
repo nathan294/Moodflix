@@ -4,11 +4,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:moodflix/features/movie_search/data/data.dart';
 
-part 'event.dart';
-part 'state.dart';
+part 'search_event.dart';
+part 'search_state.dart';
 
 class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
   final BuildContext context;
@@ -30,6 +31,7 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
         // Parse the JSON response
         final List<dynamic> jsonResponse = responseGet.data as List<dynamic>;
         print('JSON Response: $jsonResponse');
+        // ignore: avoid_function_literals_in_foreach_calls
         jsonResponse.forEach((json) {
           print('Parsing: $json');
           Movie.fromJson(json);
@@ -43,18 +45,9 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
         final List<Future<void>> imageFutures = [];
 
         for (final movie in movies) {
-          if (movie.posterPath != null) {
-            // Prefetch each image and add the future to the list
-            final imageUrl = movie
-                .posterPath; // Adjust this if necessary to get the full URL
-            final imageFuture = precacheImage(NetworkImage(imageUrl!), context);
-            imageFutures.add(imageFuture);
-          }
-          // For movies without posterPath
-          const imageUrl =
-              "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png"; // Adjust this if necessary to get the full URL
-          final imageFuture =
-              precacheImage(const NetworkImage(imageUrl), context);
+          // Prefetch each image and add the future to the list
+          final imageUrl = movie.posterPath;
+          final imageFuture = precacheImage(NetworkImage(imageUrl), context);
           imageFutures.add(imageFuture);
         }
 
@@ -69,8 +62,9 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
         print(responsePost);
       }
     } on Exception catch (e, s) {
-      print(e); // Log the exception
-      print(s); // Log the stack trace
+      context
+          .read<Logger>()
+          .f("Fatal log", error: e.toString(), stackTrace: s); // Log the error
 
       emit(MoviesErrorState(error: e.toString()));
     }

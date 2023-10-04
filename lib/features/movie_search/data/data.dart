@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 Future<Response<dynamic>> getMovies(String text, BuildContext context) async {
   // Obtain the Dio instance
-  final dio = Provider.of<Dio>(context, listen: false);
+  final dio = context.read<Dio>();
   return await dio
       .get('${AppConfig.of(context)!.apiBaseUrl}/movie/?title=$text');
 }
@@ -21,7 +21,7 @@ Future<Response> sendMoviesToDatabase(
       jsonEncode(movies.map((movie) => movie.toJson()).toList());
 
   // Obtain the Dio instance
-  final dio = Provider.of<Dio>(context, listen: false);
+  final dio = context.read<Dio>();
 
   return await dio.post(
     apiUrl,

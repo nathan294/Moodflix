@@ -6,8 +6,8 @@ class Movie {
   final String originalLanguage;
   final String originalTitle;
   final String overview;
-  final String? posterPath;
-  final String? backdropPath;
+  final String posterPath;
+  final String backdropPath;
   final String releaseDate;
   final int releaseYear;
   final double popularity;

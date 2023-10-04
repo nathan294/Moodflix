@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moodflix/features/movie_details/bloc/bloc.dart';
+import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/widgets/movie_poster.dart';
 import 'package:moodflix/features/movie_details/widgets/avg_note.dart';
 import 'package:moodflix/features/movie_details/widgets/popularity_score.dart';
@@ -54,8 +54,7 @@ class MovieTitleRowWidget extends StatelessWidget {
                 ],
               ),
               MoviePosterWidget(
-                imageUrl: movie.posterPath ??
-                    "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png",
+                imageUrl: movie.posterPath,
                 height: 200.0, // Optionally specify a different height
               ),
             ],

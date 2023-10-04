@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/core/widgets/shimmer_image.dart';
-import 'package:moodflix/features/movie_details/bloc/bloc.dart';
+import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/ui/details_body.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
@@ -27,9 +27,7 @@ class MovieDetailsPage extends StatelessWidget {
                 expandedHeight: 200,
                 flexibleSpace: FlexibleSpaceBar(
                   background: ShimmerImagePlaceholder(
-                      imageUrl: movie.backdropPath ??
-                          'https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png',
-                      fit: BoxFit.cover),
+                      imageUrl: movie.backdropPath, fit: BoxFit.cover),
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,

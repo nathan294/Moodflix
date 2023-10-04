@@ -17,7 +17,7 @@ Future<Response> getGenreName(List<int> genreIds, BuildContext context) async {
   };
 
   // Obtain the Dio instance
-  final dio = Provider.of<Dio>(context, listen: false);
+  final dio = context.read<Dio>();
 
   return await dio.post(
     apiUrl,

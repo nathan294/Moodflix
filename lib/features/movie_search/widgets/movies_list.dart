@@ -10,8 +10,8 @@ class MoviesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Sort the movies by popularity in descending order
-    final sortedMovies = List.from(movies)
-      ..sort((a, b) => b.popularity.compareTo(a.popularity));
+    final sortedMovies = List.from(movies);
+    // ..sort((a, b) => b.popularity.compareTo(a.popularity));
 
     // Number of items
     final int itemCount = sortedMovies.length;
@@ -28,10 +28,7 @@ class MoviesList extends StatelessWidget {
       ),
       itemBuilder: (BuildContext context, int index) {
         final movie = sortedMovies[index];
-        String leadingImage = movie.posterPath != null
-            ? movie.posterPath!
-            : "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png"; // Replace with the URL of your image with an interrogation point
-
+        String leadingImage = movie.posterPath;
         return InkWell(
           onTap: () {
             // Navigate to the movie details or do something else

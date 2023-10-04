@@ -1,12 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:moodflix/features/movie_details/data/data.dart';
 
-part 'event.dart';
-part 'state.dart';
+part 'details_event.dart';
+part 'details_state.dart';
 
 class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   final BuildContext context;
@@ -30,7 +33,10 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
             responseData.map((item) => item.toString()).toList();
         emit(DataLoadedState(genreName: stringData));
       }
-    } on Exception catch (e) {
+    } on Exception catch (e, s) {
+      context
+          .read<Logger>()
+          .f("Fatal log", error: e.toString(), stackTrace: s); // Log the error
       emit(DataErrorState(error: e.toString()));
     }
   }
