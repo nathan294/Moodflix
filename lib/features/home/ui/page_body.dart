@@ -11,7 +11,7 @@ class HomeBody extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is DataLoadingState) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (state is DataLoadedState) {
           return SingleChildScrollView(
             // Wrap with SingleChildScrollView
