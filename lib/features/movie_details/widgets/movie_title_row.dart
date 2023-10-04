@@ -54,8 +54,7 @@ class MovieTitleRowWidget extends StatelessWidget {
                 ],
               ),
               MoviePosterWidget(
-                imageUrl: movie.posterPath ??
-                    "https://e7.pngegg.com/pngimages/754/873/png-clipart-question-mark-question-mark.png",
+                imageUrl: movie.posterPath,
                 height: 200.0, // Optionally specify a different height
               ),
             ],
