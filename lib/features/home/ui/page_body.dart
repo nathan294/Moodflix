@@ -17,21 +17,19 @@ class HomeBody extends StatelessWidget {
             // Wrap with SingleChildScrollView
             child: Column(
               children: [
-                const Center(child: Text("Films populaires")),
-                MoviesCarousel(movies: state.popularMovies),
+                MoviesCarousel(
+                    movies: state.popularMovies, listTitle: "Films populaires"),
                 const SizedBox(
-                  height: 5,
+                  height: 30,
                 ),
-                const Center(child: Text("À l'affiche")),
-                MoviesCarousel(movies: state.nowPlayingMovies),
+                MoviesCarousel(
+                    movies: state.nowPlayingMovies, listTitle: "À l'affiche"),
                 const SizedBox(
-                  height: 5,
+                  height: 30,
                 ),
-                const Center(child: Text("Prochaines sorties")),
-                MoviesCarousel(movies: state.upcomingMovies),
-                const SizedBox(
-                  height: 5,
-                ),
+                MoviesCarousel(
+                    movies: state.upcomingMovies,
+                    listTitle: "Prochaines sorties"),
               ],
             ),
           );
