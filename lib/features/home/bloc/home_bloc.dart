@@ -25,10 +25,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // Retrieve Home Movies
       Response<dynamic> responseGet = await getHomeMovies(context);
       if (responseGet.statusCode == 200) {
-        print("Raw Response: ${responseGet.data}"); // Print raw response
-        print(
-            "Data type of response: ${responseGet.data.runtimeType}"); // Check the type
-
         // Parse and precache movies
         ParsedMovies parsedMovies =
             await parseAndPrecacheMovies(responseGet.data, context);
@@ -40,16 +36,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           upcomingMovies: parsedMovies.upcomingMovies,
         ));
 
-        // Send movies to our database
-        Response responsePostPopular =
-            await sendMoviesToDatabase(parsedMovies.popularMovies, context);
-        print(responsePostPopular);
-        Response responsePostNowPlaying =
-            await sendMoviesToDatabase(parsedMovies.nowPlayingMovies, context);
-        print(responsePostNowPlaying);
-        Response responsePostUpcoming =
-            await sendMoviesToDatabase(parsedMovies.upcomingMovies, context);
-        print(responsePostUpcoming);
+        // Combine all movies into a single list
+        var allMovies = [
+          ...parsedMovies.popularMovies,
+          ...parsedMovies.nowPlayingMovies,
+          ...parsedMovies.upcomingMovies
+        ];
+
+        // Send all movies to the database in a single request
+        Response<dynamic> responsePost =
+            await sendMoviesToDatabase(allMovies, context);
+        context.read<Logger>().i(responsePost.statusCode);
       } else {
         // Handle other status codes here
         emit(DataErrorState(

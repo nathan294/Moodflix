@@ -43,9 +43,9 @@ Future<ParsedMovies> parseAndPrecacheMovies(
       .toList();
 
   // Precache images
-  await cacheImages(popularMovies);
-  await cacheImages(nowPlayingMovies);
-  await cacheImages(upcomingMovies);
+  cacheImages(popularMovies);
+  cacheImages(nowPlayingMovies);
+  cacheImages(upcomingMovies);
 
   return ParsedMovies(
     popularMovies: popularMovies,
@@ -55,7 +55,7 @@ Future<ParsedMovies> parseAndPrecacheMovies(
 }
 
 Future<void> cacheImages(List<Movie> movies) async {
-  for (var movie in movies) {
-    await DefaultCacheManager().downloadFile(movie.posterPath);
-  }
+  // Use Future.wait to process the movie list in parallel
+  await Future.wait(movies
+      .map((movie) => DefaultCacheManager().downloadFile(movie.posterPath)));
 }
