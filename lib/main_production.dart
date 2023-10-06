@@ -7,7 +7,8 @@ import 'main.dart';
 import 'firebase/firebase_options.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,5 +21,5 @@ Future<void> main() async {
     child: const MyApp(),
   );
 
-  mainCommon(configuredApp);
+  mainCommon(configuredApp, widgetsBinding);
 }

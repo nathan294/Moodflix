@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:moodflix/core/widgets/shimmer_image.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
 class MoviesList extends StatelessWidget {
@@ -46,9 +46,13 @@ class MoviesList extends StatelessWidget {
                       const EdgeInsets.only(left: 20.0), // Add leading padding
                   child: SizedBox(
                     width: 60, // adjust the width as needed
-                    child: ShimmerImagePlaceholder(
+                    child: CachedNetworkImage(
                       imageUrl: leadingImage,
-                      fit: BoxFit.fitHeight, // cover the entire space
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      fit: BoxFit.fitHeight,
+                      fadeInDuration: const Duration(milliseconds: 100),
+                      fadeOutDuration: const Duration(milliseconds: 30),
                     ),
                   ),
                 ),
