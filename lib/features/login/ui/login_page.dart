@@ -17,12 +17,12 @@ class LoginPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        context.push("/login/signin");
+                        context.pushNamed("signin");
                       },
                       child: const Text("Se connecter")),
                   ElevatedButton(
                       onPressed: () {
-                        context.push("/login/signup");
+                        context.pushNamed("signup");
                       },
                       child: const Text("S'inscrire")),
                 ],
