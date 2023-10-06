@@ -6,6 +6,8 @@ import 'package:moodflix/features/collection/ui/collection_page.dart';
 import 'package:moodflix/features/discover/ui/discover_page.dart';
 import 'package:moodflix/features/home/ui/home_page.dart';
 import 'package:moodflix/features/login/login.dart';
+import 'package:moodflix/features/login/ui/signin_page.dart';
+import 'package:moodflix/features/login/ui/signup_page.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:moodflix/features/movie_details/movie_details.dart';
 import 'package:moodflix/features/movie_search/movie_search.dart';
@@ -68,10 +70,21 @@ final router = GoRouter(
         ],
       ),
       GoRoute(
-        name: 'login',
-        path: '/login',
-        builder: (context, state) => const Login(),
-      ),
+          name: 'login',
+          path: '/login',
+          builder: (context, state) => const Login(),
+          routes: <RouteBase>[
+            GoRoute(
+              name: "signin",
+              path: "signin",
+              builder: (context, state) => const SignInPage(),
+            ),
+            GoRoute(
+              name: "signup",
+              path: "signup",
+              builder: (context, state) => const SignUpPage(),
+            ),
+          ]),
       GoRoute(
         name: 'search_page',
         path: '/search_page',
