@@ -48,7 +48,10 @@ class MoviesCarousel extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                          height: imageHeight, // Height of the Image
+                        height: imageHeight, // Height of the Image
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust the rounding radius as you like
                           child: CachedNetworkImage(
                             imageUrl: movie.posterPath,
                             errorWidget: (context, url, error) =>
@@ -56,7 +59,9 @@ class MoviesCarousel extends StatelessWidget {
                             fit: BoxFit.fitHeight,
                             fadeInDuration: const Duration(milliseconds: 100),
                             fadeOutDuration: const Duration(milliseconds: 30),
-                          )),
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 5),
                       Text(
                         movie.title,

@@ -46,9 +46,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ];
 
         // Send all movies to the database in a single request
-        Response<dynamic> responsePost =
-            await sendMoviesToDatabase(allMovies, context);
-        context.read<Logger>().i(responsePost.statusCode);
+        Future<Response<dynamic>> responsePost =
+            sendMoviesToDatabase(allMovies, context);
+        context.read<Logger>().i(responsePost.runtimeType);
       } else {
         // Handle other status codes here
         emit(DataErrorState(

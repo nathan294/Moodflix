@@ -62,14 +62,15 @@ class PopularCarousel extends StatelessWidget {
                         bottom: 25, // Set this to 0 to align to bottom
                         left: 0, // Set this to 0 to align to left
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14.0, vertical: 8),
                           child: Text(
                             movie.title,
                             overflow: TextOverflow
                                 .ellipsis, // Add ellipsis for long text
-                            maxLines: 1, // Limit to one line
+                            // maxLines: 1, // Limit to one line
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 20,
                               color: Colors.white, // Change text color to white
                               fontWeight: FontWeight.bold, // Make text bold
                             ),

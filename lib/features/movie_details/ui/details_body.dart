@@ -77,7 +77,7 @@ List<Widget> buildBody(Movie movie, MovieDetailsState state) {
             Text(state.genreName.join(', '),
                 style: const TextStyle(fontStyle: FontStyle.italic)),
             Text(
-              "Date de sortie : ${movie.releaseYear.toString()}\n",
+              "Date de sortie : ${movie.releaseDate.toString()}\n",
             ),
             Text("Synopsis : ${movie.overview}"),
           ],
