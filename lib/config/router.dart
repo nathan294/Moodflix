@@ -5,6 +5,7 @@ import 'package:moodflix/core/app_navigation_bar.dart';
 import 'package:moodflix/features/collection/ui/collection_page.dart';
 import 'package:moodflix/features/discover/ui/discover_page.dart';
 import 'package:moodflix/features/home/ui/home_page.dart';
+import 'package:moodflix/features/login/login.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:moodflix/features/movie_details/movie_details.dart';
 import 'package:moodflix/features/movie_search/movie_search.dart';
@@ -66,22 +67,11 @@ final router = GoRouter(
           ])
         ],
       ),
-      // GoRoute(
-      //   name: 'login',
-      //   path: '/login',
-      //   pageBuilder: (context, state) => CustomTransitionPage<void>(
-      //     key: state.pageKey,
-      //     child: const Login(),
-      //     transitionDuration: const Duration(milliseconds: 600),
-      //     transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-      //         FadeTransition(opacity: animation, child: child),
-      //   ),
-      // ),
-      // GoRoute(
-      //   name: 'onboarding',
-      //   path: '/onboarding',
-      //   builder: (context, state) => const OnboardingPage(),
-      // ),
+      GoRoute(
+        name: 'login',
+        path: '/login',
+        builder: (context, state) => const Login(),
+      ),
       GoRoute(
         name: 'search_page',
         path: '/search_page',
