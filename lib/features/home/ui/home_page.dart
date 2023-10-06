@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:moodflix/features/home/ui/page_body.dart';
+import 'package:moodflix/features/home/ui/home_body.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
