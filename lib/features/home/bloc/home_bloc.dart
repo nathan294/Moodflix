@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:logger/logger.dart';
 import 'package:moodflix/features/home/data/retrieve_movies_lists.dart';
 import 'package:moodflix/features/movie_search/data/data.dart';
@@ -25,10 +26,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // Retrieve Home Movies
       Response<dynamic> responseGet = await getHomeMovies(context);
       if (responseGet.statusCode == 200) {
-        print("Raw Response: ${responseGet.data}"); // Print raw response
-        print(
-            "Data type of response: ${responseGet.data.runtimeType}"); // Check the type
-
         // Parse and precache movies
         ParsedMovies parsedMovies =
             await parseAndPrecacheMovies(responseGet.data, context);
@@ -39,17 +36,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           nowPlayingMovies: parsedMovies.nowPlayingMovies,
           upcomingMovies: parsedMovies.upcomingMovies,
         ));
+        FlutterNativeSplash.remove();
 
-        // Send movies to our database
-        Response responsePostPopular =
-            await sendMoviesToDatabase(parsedMovies.popularMovies, context);
-        print(responsePostPopular);
-        Response responsePostNowPlaying =
-            await sendMoviesToDatabase(parsedMovies.nowPlayingMovies, context);
-        print(responsePostNowPlaying);
-        Response responsePostUpcoming =
-            await sendMoviesToDatabase(parsedMovies.upcomingMovies, context);
-        print(responsePostUpcoming);
+        // Combine all movies into a single list
+        var allMovies = [
+          ...parsedMovies.popularMovies,
+          ...parsedMovies.nowPlayingMovies,
+          ...parsedMovies.upcomingMovies
+        ];
+
+        // Send all movies to the database in a single request
+        Future<Response<dynamic>> responsePost =
+            sendMoviesToDatabase(allMovies, context);
+        context.read<Logger>().i(responsePost.runtimeType);
       } else {
         // Handle other status codes here
         emit(DataErrorState(

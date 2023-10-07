@@ -29,7 +29,7 @@ class TestPage extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  // context.push("/login");
+                  context.push("/login");
                 },
                 child: const Text('Page de login')),
             ElevatedButton(

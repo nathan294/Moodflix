@@ -1,5 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:moodflix/core/widgets/shimmer_image.dart';
 
 class MoviePosterWidget extends StatelessWidget {
   final String imageUrl;
@@ -27,12 +27,14 @@ class MoviePosterWidget extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
-        child: ShimmerImagePlaceholder(imageUrl: imageUrl, fit: BoxFit.cover),
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+          fit: BoxFit.cover,
+          fadeInDuration: const Duration(milliseconds: 90),
+          fadeOutDuration: const Duration(milliseconds: 30),
+        ),
       ),
     );
   }
 }
-
-// Usage in MovieTitleRowWidget:
-// ...
-// ...

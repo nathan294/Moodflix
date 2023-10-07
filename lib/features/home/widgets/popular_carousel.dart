@@ -4,16 +4,16 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:go_router/go_router.dart'; // Import for context.push
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
-class MoviesCarousel extends StatelessWidget {
+class PopularCarousel extends StatelessWidget {
   final List<Movie> movies;
   final String listTitle;
 
-  const MoviesCarousel(
+  const PopularCarousel(
       {super.key, required this.movies, required this.listTitle});
 
   @override
   Widget build(BuildContext context) {
-    double carouselHeight = 175.0;
+    double carouselHeight = 250.0;
     double imageHeight = carouselHeight - 25;
 
     return Column(
@@ -33,8 +33,8 @@ class MoviesCarousel extends StatelessWidget {
         CarouselSlider(
           options: CarouselOptions(
             height: carouselHeight,
-            autoPlay: false,
-            viewportFraction: 1 / 3, // Fraction of width each item takes up
+            autoPlay: true,
+            viewportFraction: 1, // Fraction of width each item takes up
             enlargeCenterPage: false, // Don't enlarge the center item
           ),
           items: movies.map((movie) {
@@ -45,31 +45,39 @@ class MoviesCarousel extends StatelessWidget {
                   onTap: () {
                     context.push('/movie/${movie.id}', extra: movie);
                   },
-                  child: Column(
+                  child: Stack(
                     children: [
                       SizedBox(
-                        height: imageHeight, // Height of the Image
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Adjust the rounding radius as you like
+                          height: imageHeight, // Height of the Image
                           child: CachedNetworkImage(
-                            imageUrl: movie.posterPath,
+                            imageUrl: movie.backdropPath,
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
-                            fit: BoxFit.fitHeight,
-                            fadeInDuration: const Duration(milliseconds: 100),
+                            fit: BoxFit.cover,
+                            fadeInDuration: const Duration(milliseconds: 90),
                             fadeOutDuration: const Duration(milliseconds: 30),
+                          )),
+
+                      Positioned(
+                        bottom: 25, // Set this to 0 to align to bottom
+                        left: 0, // Set this to 0 to align to left
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14.0, vertical: 8),
+                          child: Text(
+                            movie.title,
+                            overflow: TextOverflow
+                                .ellipsis, // Add ellipsis for long text
+                            // maxLines: 1, // Limit to one line
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.white, // Change text color to white
+                              fontWeight: FontWeight.bold, // Make text bold
+                            ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        movie.title,
-                        overflow:
-                            TextOverflow.ellipsis, // Add ellipsis for long text
-                        maxLines: 1, // Limit to one line
-                        style: const TextStyle(fontSize: 12),
-                      ),
+                      // Text('Average Note: ${movie.voteAverage}'),
                     ],
                   ),
                 );

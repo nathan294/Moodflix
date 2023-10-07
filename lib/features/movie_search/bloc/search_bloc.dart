@@ -41,25 +41,14 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
         final List<Movie> movies =
             jsonResponse.map((json) => Movie.fromJson(json)).toList();
 
-        // List to hold all the prefetch image futures
-        final List<Future<void>> imageFutures = [];
-
-        for (final movie in movies) {
-          // Prefetch each image and add the future to the list
-          final imageUrl = movie.posterPath;
-          final imageFuture = precacheImage(NetworkImage(imageUrl), context);
-          imageFutures.add(imageFuture);
-        }
-
-        // Wait for all image prefetch operations to complete
-        await Future.wait(imageFutures);
+        await cachePosterPath(movies);
 
         // Emit the new state with the loaded movies
         emit(MoviesLoadedState(movies: movies));
 
         // Send movies to our database
-        Response responsePost = await sendMoviesToDatabase(movies, context);
-        print(responsePost);
+        Future<Response> responsePost = sendMoviesToDatabase(movies, context);
+        print(responsePost.runtimeType);
       }
     } on Exception catch (e, s) {
       context
