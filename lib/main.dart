@@ -12,9 +12,11 @@ Future<void> mainCommon(
   // Update the AppConfig instance with the Firebase instance
   configuredApp.firebaseAuth = FirebaseAuth.instance;
 
+  // We use Dio for the http requests
   final dio = Dio();
   dio.interceptors.add(LoggingInterceptor()); // Add the interceptor
 
+  // Logger
   var logger = Logger();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
