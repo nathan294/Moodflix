@@ -12,16 +12,16 @@ import 'package:meta/meta.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:provider/provider.dart';
 
-part 'login_event.dart';
-part 'login_state.dart';
+part 'auth_event.dart';
+part 'auth_state.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late String email;
   late String password;
   final BuildContext context;
 
-  LoginBloc(this.context) : super(LoginInitial()) {
-    on<LoginEvent>((event, emit) {});
+  AuthBloc(this.context) : super(AuthInitial()) {
+    on<AuthEvent>((event, emit) {});
 
     // When the user clicks on the register button
     on<SignUpButtonEvent>(_signUpUser);
@@ -34,7 +34,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   FutureOr<void> _signUpUser(
-      SignUpButtonEvent event, Emitter<LoginState> emit) async {
+      SignUpButtonEvent event, Emitter<AuthState> emit) async {
     email = event.email;
     password = event.password;
     emit(LoginLoadingState());
@@ -59,14 +59,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     } catch (e, s) {
       emit(LoginErrorState(
-          error: e.toString(), message: "Une erreur est survenue."));
+          error: e.toString(), message: "Une erreur inconnue est survenue."));
       context.read<Logger>().e("Une erreur inconnue est survenue",
           error: e.toString(), stackTrace: s);
     }
   }
 
   FutureOr<void> _signInUser(
-      SignInButtonEvent event, Emitter<LoginState> emit) async {
+      SignInButtonEvent event, Emitter<AuthState> emit) async {
     email = event.email;
     password = event.password;
     emit(LoginLoadingState());
@@ -75,59 +75,54 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           email: event.email, password: event.password);
       add(CredentialsRetrievedEvent(credential: credential));
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
         emit(LoginErrorState(
-            error: e.toString(),
-            message: "Aucun utilisateur trouvé pour cet email."));
-        context.read<Logger>().i('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        emit(LoginErrorState(
-            error: e.toString(), message: "Mot de passe incorrect."));
-        context.read<Logger>().i('Wrong password provided for that user.');
+            error: e.toString(), message: "Identifiants invalides"));
+        context.read<Logger>().e('Identifiants invalides');
+      } else {
+        emit(LoginErrorState(error: e.toString(), message: e.toString()));
+        context.read<Logger>().e(e.toString(), error: e);
       }
     }
   }
 
   _loginWithCredential(
-      CredentialsRetrievedEvent event, Emitter<LoginState> emit) async {
+      CredentialsRetrievedEvent event, Emitter<AuthState> emit) async {
     try {
       emit(LoginLoadingState());
 
-      // If firebase login succeeds (User is retrieved)
       if (event.credential.user != null) {
         context.read<Logger>().i("Firebase login succeeded");
 
-        // Create the user in our database
         Response response = await _createUser(event.credential.user!);
 
-        // If the user is already created
-        if (response.statusCode == 400) {
-          context.read<Logger>().i("User already created in database");
-          emit(UserAlreadyCreatedState());
-
-          // If the user is a new user (and created successfully)
-        } else if (response.statusCode == 200) {
+        if (response.statusCode == 200) {
           context.read<Logger>().i("User created successfully in database");
           emit(UserCreatedState());
-
-          // If status code has an error
         } else {
           context.read<Logger>().e(
-              "Une erreur inconnue est survenue, status code ${response.statusCode}");
+              "An unknown error occurred, status code ${response.statusCode}");
         }
       } else {
         emit(LoginErrorState(
-            error: "Erreur pendant la connexion firebase  (user null)",
-            message: "Erreur pendant la connexion firebase"));
-        context
-            .read<Logger>()
-            .e("Erreur pendant la connexion firebase  (user null)");
+            error: "Error during Firebase login (user null)",
+            message: "Error during Firebase login"));
+        context.read<Logger>().e("Error during Firebase login (user null)");
       }
     } catch (e, s) {
-      emit(LoginErrorState(
-          error: e.toString(), message: "Une erreur est survenue."));
-      context.read<Logger>().e("Une erreur inconnue est survenue",
-          error: e.toString(), stackTrace: s);
+      if (e is DioException) {
+        // Check for a 409 status code specifically
+        if (e.response?.statusCode == 409) {
+          context.read<Logger>().i("User already created in database");
+          emit(UserAlreadyCreatedState());
+        }
+      } else {
+        emit(LoginErrorState(
+            error: e.toString(), message: "An error occurred."));
+        context
+            .read<Logger>()
+            .e("An unknown error occurred", error: e.toString(), stackTrace: s);
+      }
     }
   }
 

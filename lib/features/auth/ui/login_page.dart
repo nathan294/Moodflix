@@ -15,12 +15,12 @@ class LoginPage extends StatelessWidget {
               const Text("Bienvenue sur Moodflix !"),
               Column(
                 children: [
-                  ElevatedButton(
+                  FilledButton(
                       onPressed: () {
                         context.pushNamed("signin");
                       },
                       child: const Text("Se connecter")),
-                  ElevatedButton(
+                  FilledButton(
                       onPressed: () {
                         context.pushNamed("signup");
                       },

@@ -1,10 +1,10 @@
-part of 'login_bloc.dart';
+part of 'auth_bloc.dart';
 
 @immutable
-sealed class LoginEvent {}
+sealed class AuthEvent {}
 
 // When the user clicks on the submit button on the sign-up form
-class SignUpButtonEvent extends LoginEvent {
+class SignUpButtonEvent extends AuthEvent {
   final String email;
   final String password;
 
@@ -14,7 +14,7 @@ class SignUpButtonEvent extends LoginEvent {
 }
 
 // When the user clicks the button to sign-in
-class SignInButtonEvent extends LoginEvent {
+class SignInButtonEvent extends AuthEvent {
   final String email;
   final String password;
 
@@ -24,7 +24,7 @@ class SignInButtonEvent extends LoginEvent {
 }
 
 // When the user has been registered/signed-in successfully from Firebase
-class CredentialsRetrievedEvent extends LoginEvent {
+class CredentialsRetrievedEvent extends AuthEvent {
   final UserCredential credential;
   CredentialsRetrievedEvent({
     required this.credential,
