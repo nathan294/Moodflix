@@ -3,14 +3,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:meta/meta.dart';
 import 'package:moodflix/config/app_config.dart';
-import 'package:provider/provider.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
