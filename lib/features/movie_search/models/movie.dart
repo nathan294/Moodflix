@@ -1,12 +1,13 @@
 class Movie {
   final int id;
   final String title;
+  final String type;
   final List<int> genreIds;
   final String originalLanguage;
   final String originalTitle;
   final String overview;
-  final String? posterPath;
-  final String? backdropPath;
+  final String posterPath;
+  final String backdropPath;
   final String releaseDate;
   final int releaseYear;
   final double popularity;
@@ -16,6 +17,7 @@ class Movie {
   Movie({
     required this.id,
     required this.title,
+    required this.type,
     required this.genreIds,
     required this.originalLanguage,
     required this.originalTitle,
@@ -34,6 +36,7 @@ class Movie {
     return Movie(
       id: json['id'],
       title: json['title'],
+      type: json['type'],
       genreIds: List<int>.from(json['genre_ids']),
       originalLanguage: json['original_language'],
       originalTitle: json['original_title'],
@@ -53,6 +56,7 @@ class Movie {
     return {
       'id': id,
       'title': title,
+      'type': type,
       'genre_ids': genreIds,
       'original_language': originalLanguage,
       'original_title': originalTitle,
@@ -70,6 +74,7 @@ class Movie {
   Movie copyWith({
     int? id,
     String? title,
+    String? type,
     List<int>? genreIds,
     String? originalLanguage,
     String? originalTitle,
@@ -85,6 +90,7 @@ class Movie {
     return Movie(
       id: id ?? this.id,
       title: title ?? this.title,
+      type: type ?? this.type,
       genreIds: genreIds ?? this.genreIds,
       originalLanguage: originalLanguage ?? this.originalLanguage,
       originalTitle: originalTitle ?? this.originalTitle,

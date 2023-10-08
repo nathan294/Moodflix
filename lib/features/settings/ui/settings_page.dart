@@ -29,8 +29,8 @@ class SettingsPage extends StatelessWidget {
             ),
           ElevatedButton(
               onPressed: () {
-                // AppConfig.of(context)!.firebaseAuth.signOut();
-                // context.go('/login');
+                AppConfig.of(context)!.firebaseAuth.signOut();
+                context.go('/login');
               },
               child: const Text("Se déconnecter")),
         ],

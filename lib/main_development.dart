@@ -1,16 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/core/app.dart';
+import 'package:moodflix/core/bloc_observer.dart';
 
 import 'config/app_config.dart';
 import 'firebase/firebase_options_dev.dart';
 import 'main.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Bloc.observer = SimpleBlocObserver();
 
   var configuredApp = AppConfig(
     appName: 'Moodflix DEV',
@@ -22,5 +26,5 @@ Future<void> main() async {
     child: const MyApp(),
   );
 
-  mainCommon(configuredApp);
+  mainCommon(configuredApp, widgetsBinding);
 }
