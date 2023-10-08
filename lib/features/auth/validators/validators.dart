@@ -18,7 +18,7 @@ String? validatePassword(String? value) {
   if (!value.contains(RegExp(r'[0-9]'))) {
     return 'Password must contain at least one digit';
   }
-  if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]+'))) {
+  if (!value.contains(RegExp(r'[!@#$%^&*(),.?"\+\-\_:;{}|<>]+'))) {
     return 'Password must contain at least one special character';
   }
   return null;
