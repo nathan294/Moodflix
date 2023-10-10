@@ -64,8 +64,11 @@ class SignUpPageState extends State<SignUpPage> {
                     ),
                     MyPasswordFormField(
                         label: 'Password',
+                        controller: _passwordController,
                         validator: validatePassword,
-                        onSaved: (value) => password = value),
+                        onSaved: (value) {
+                          password = value;
+                        }),
                     MyPasswordFormField(
                       label: 'Confirm Password',
                       validator: (value) => validateConfirmPassword(

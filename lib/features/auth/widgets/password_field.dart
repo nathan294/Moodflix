@@ -8,11 +8,13 @@ class MyPasswordFormField extends StatefulWidget {
   final String label;
   final ValidatorFunc validator;
   final OnSavedFunc onSaved;
+  final TextEditingController? controller;
 
   const MyPasswordFormField({
     Key? key,
     required this.label,
     this.validator = validatePassword,
+    this.controller,
     required this.onSaved,
   }) : super(key: key);
 
@@ -26,6 +28,7 @@ class MyPasswordFormFieldState extends State<MyPasswordFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       decoration: InputDecoration(
         labelText: widget.label,
         suffixIcon: IconButton(
