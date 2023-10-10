@@ -3,14 +3,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:meta/meta.dart';
 import 'package:moodflix/config/app_config.dart';
-import 'package:provider/provider.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -50,12 +48,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(LoginErrorState(
             error: e.toString(),
             message: "Le mot de passe entré n'est pas assez sécurisé."));
-        context.read<Logger>().i('The password provided is too weak.');
+        context.read<Logger>().e('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         emit(LoginErrorState(
             error: e.toString(),
             message: "Un compte existe déjà avec cette adresse email."));
-        context.read<Logger>().i('The account already exists for that email.');
+        context.read<Logger>().e('The account already exists for that email.');
+      } else if (e.code == 'invalid-email') {
+        emit(LoginErrorState(
+            error: e.toString(), message: "Format d'adresse email invalide."));
+        context.read<Logger>().e('The account already exists for that email.');
+      } else {
+        emit(LoginErrorState(error: e.toString(), message: e.code));
+        context.read<Logger>().e('${e.code} - ${e.toString()}');
       }
     } catch (e, s) {
       emit(LoginErrorState(

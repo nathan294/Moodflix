@@ -4,15 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:moodflix/features/auth/bloc/auth_bloc.dart';
 import 'package:moodflix/features/auth/validators/validators.dart';
+import 'package:moodflix/features/auth/widgets/email_field.dart';
+import 'package:moodflix/features/auth/widgets/password_field.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
   @override
-  _SignInPageState createState() => _SignInPageState();
+  SignInPageState createState() => SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? email, password;
 
@@ -46,25 +48,15 @@ class _SignInPageState extends State<SignInPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      decoration: const InputDecoration(labelText: 'Email'),
+                    MyEmailFormField(
+                      label: 'Email',
                       validator: validateEmail,
-                      onSaved: (value) {
-                        setState(() {
-                          email = value;
-                        });
-                      },
+                      onSaved: (value) => email = value,
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(labelText: 'Password'),
-                      obscureText: false,
-                      validator: validatePassword,
-                      onSaved: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
-                    ),
+                    MyPasswordFormField(
+                        label: 'Password',
+                        validator: validatePassword,
+                        onSaved: (value) => password = value),
                     const SizedBox(
                       height: 30,
                     ),

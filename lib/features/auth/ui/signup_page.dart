@@ -4,15 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:moodflix/features/auth/bloc/auth_bloc.dart';
 import 'package:moodflix/features/auth/validators/validators.dart';
+import 'package:moodflix/features/auth/widgets/email_field.dart';
+import 'package:moodflix/features/auth/widgets/password_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  SignUpPageState createState() => SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   String? email, password, confirmPassword;
@@ -55,22 +57,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      decoration: const InputDecoration(labelText: 'Email'),
+                    MyEmailFormField(
+                      label: 'Email',
                       validator: validateEmail,
                       onSaved: (value) => email = value,
                     ),
-                    TextFormField(
-                      controller: _passwordController,
-                      decoration: const InputDecoration(labelText: 'Password'),
-                      obscureText: false,
-                      validator: validatePassword,
-                      onSaved: (value) => password = value,
-                    ),
-                    TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Confirm Password'),
-                      obscureText: false,
+                    MyPasswordFormField(
+                        label: 'Password',
+                        controller: _passwordController,
+                        validator: validatePassword,
+                        onSaved: (value) {
+                          password = value;
+                        }),
+                    MyPasswordFormField(
+                      label: 'Confirm Password',
                       validator: (value) => validateConfirmPassword(
                           value, _passwordController.text),
                       onSaved: (value) => confirmPassword = value,
