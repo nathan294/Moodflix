@@ -4,11 +4,11 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+// import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:logger/logger.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/core/injection.dart';
-import 'package:moodflix/features/home/data/retrieve_movies_lists.dart';
+import 'package:moodflix/features/home/data/retrieve_movies_home_lists.dart';
 import 'package:moodflix/features/movie_search/data/data.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
@@ -41,7 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           nowPlayingMovies: parsedMovies.nowPlayingMovies,
           upcomingMovies: parsedMovies.upcomingMovies,
         ));
-        FlutterNativeSplash.remove();
+        // FlutterNativeSplash.remove();
 
         // Combine all movies into a single list
         var allMovies = [
@@ -51,16 +51,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ];
 
         // Send all movies to the database in a single request
-        Future<Response<dynamic>> responsePost =
+        Future<Response<dynamic>> _ =
             sendMoviesToDatabase(allMovies, config, dio);
-        logger.i(responsePost.runtimeType);
       } else {
         // Handle other status codes here
         emit(DataErrorState(
             error: "Received status code ${responseGet.statusCode}"));
       }
     } on Exception catch (e, s) {
-      logger.f("Fatal log",
+      logger.e("Fatal log",
           error: e.toString(), stackTrace: s); // Log the error
 
       emit(DataErrorState(error: e.toString()));

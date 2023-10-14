@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+// import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/config/interceptor.dart';
 import 'package:moodflix/core/injection.dart';
@@ -16,7 +16,7 @@ Future<void> mainCommon(
   // Add the interceptor
   dio.interceptors.add(LoggingInterceptor());
 
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     configuredApp,
   );

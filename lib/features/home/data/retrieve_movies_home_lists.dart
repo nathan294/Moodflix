@@ -5,7 +5,7 @@ import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
 Future<Response<dynamic>> getHomeMovies(Dio dio, AppConfig config) async {
-  return await dio.get('${config.apiBaseUrl}/movie/home_page_lists');
+  return await dio.get('/movie/home_page_lists');
 }
 
 class ParsedMovies {

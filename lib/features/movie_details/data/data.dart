@@ -5,7 +5,7 @@ import 'package:moodflix/config/app_config.dart';
 
 Future<Response> getGenreName(
     List<int> genreIds, Dio dio, AppConfig config) async {
-  final String apiUrl = '${config.apiBaseUrl}/movie/get_genre_name';
+  const String apiUrl = '/movie/get_genre_name';
 
   final Map<String, dynamic> body = {
     'ids': genreIds,

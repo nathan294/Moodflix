@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AppConfig extends InheritedWidget {
-  late final FirebaseAuth firebaseAuth;
   // ignore: prefer_const_constructors_in_immutables
   AppConfig({
     super.key,

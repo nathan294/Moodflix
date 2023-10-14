@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moodflix/features/collection/ui/collection_body.dart';
 
 class CollectionPage extends StatelessWidget {
   const CollectionPage({super.key});
@@ -7,7 +8,7 @@ class CollectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Collection")),
-      body: const Center(child: Text("Collection")),
+      body: CollectionBody(),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class TokenService {
   final FlutterSecureStorage storage;
   final FirebaseAuth firebaseAuth;
+
   String? _token;
 
   TokenService(this.storage, this.firebaseAuth) {
@@ -15,6 +16,12 @@ class TokenService {
     if (user != null) {
       _token = await user.getIdToken(true);
       await storage.write(key: 'firebase_token', value: _token);
+
+      // // Load data for other Blocs
+      // homePageBloc.add(home_bloc.LoadDataEvent());
+      // profileBloc.add(profile_bloc.LoadDataEvent());
+      // collectionBloc.add(collection_bloc.LoadDataEvent());
+      // discoverBloc.add(discover_bloc.LoadDataEvent());
     } else {
       // Handle user logout: Clear token
       await storage.delete(key: 'firebase_token');

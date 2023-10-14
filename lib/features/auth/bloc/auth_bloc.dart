@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:moodflix/config/app_config.dart';
+import 'package:moodflix/core/enum/auth_status.dart';
 import 'package:moodflix/core/injection.dart';
 
 part 'auth_event.dart';
@@ -17,12 +18,18 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late String email;
   late String password;
+  final FirebaseAuth firebaseAuth = getIt<FirebaseAuth>();
   final Dio dio = getIt<Dio>();
   final Logger logger = getIt<Logger>();
   final AppConfig config = getIt<AppConfig>();
 
   AuthBloc() : super(AuthInitial()) {
-    on<AuthEvent>((event, emit) {});
+    firebaseAuth.authStateChanges().listen((User? user) {
+      if (user != null) {
+        add(AppStarted());
+      }
+    });
+    on<AppStarted>(_onAppStart);
 
     // When the user clicks on the register button
     on<SignUpButtonEvent>(_signUpUser);
@@ -32,6 +39,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     // When Firebase has returned user credentials
     on<CredentialsRetrievedEvent>(_loginWithCredential);
+  }
+
+  FutureOr<void> _onAppStart(AppStarted event, Emitter<AuthState> emit) {
+    User? user = firebaseAuth.currentUser;
+    if (user != null) {
+      emit(AuthSuccessedState(status: AuthStatus.returningUser));
+    }
   }
 
   FutureOr<void> _signUpUser(
@@ -106,7 +120,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (response.statusCode == 200) {
           logger.i("User created successfully in database");
-          emit(UserCreatedState());
+          emit(AuthSuccessedState(status: AuthStatus.newUser));
         } else {
           logger.e(
               "An unknown error occurred, status code ${response.statusCode}");
@@ -122,7 +136,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // Check for a 409 status code specifically
         if (e.response?.statusCode == 409) {
           logger.i("User already created in database");
-          emit(UserAlreadyCreatedState());
+          emit(AuthSuccessedState(status: AuthStatus.returningUser));
         }
       } else {
         emit(LoginErrorState(

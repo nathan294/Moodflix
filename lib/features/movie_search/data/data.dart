@@ -6,12 +6,12 @@ import 'package:moodflix/features/movie_search/models/movie.dart';
 
 Future<Response<dynamic>> getMovies(
     String text, Dio dio, AppConfig config) async {
-  return await dio.get('${config.apiBaseUrl}/movie/?title=$text');
+  return await dio.get('/movie/?title=$text');
 }
 
 Future<Response> sendMoviesToDatabase(
     List<Movie> movies, AppConfig config, Dio dio) async {
-  final String apiUrl = '${config.apiBaseUrl}/movie/';
+  const String apiUrl = '/movie/';
 
   // Serialize the list of movies to a JSON string
   String jsonMovies =

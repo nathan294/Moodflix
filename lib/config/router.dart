@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/core/app_navigation_bar.dart';
+import 'package:moodflix/core/injection.dart';
 import 'package:moodflix/features/auth/ui/login_page.dart';
 import 'package:moodflix/features/auth/ui/signin_page.dart';
 import 'package:moodflix/features/auth/ui/signup_page.dart';
@@ -134,8 +135,8 @@ final router = GoRouter(
 
   // Redirect user to home if he is authenticated
   redirect: (BuildContext context, GoRouterState state) {
-    var config = AppConfig.of(context)!;
-    final isAuthenticated = config.firebaseAuth.currentUser != null;
+    final FirebaseAuth firebaseAuth = getIt<FirebaseAuth>();
+    final isAuthenticated = firebaseAuth.currentUser != null;
     final bool onConnexionPage = (state.matchedLocation == '/login/signup') ||
         (state.matchedLocation == '/login/signin');
     if (!isAuthenticated && !onConnexionPage) {

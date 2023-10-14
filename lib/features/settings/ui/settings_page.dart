@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moodflix/config/app_config.dart';
+import 'package:moodflix/core/injection.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -29,7 +31,7 @@ class SettingsPage extends StatelessWidget {
             ),
           ElevatedButton(
               onPressed: () {
-                AppConfig.of(context)!.firebaseAuth.signOut();
+                getIt<FirebaseAuth>().signOut();
                 context.go('/login');
               },
               child: const Text("Se déconnecter")),
