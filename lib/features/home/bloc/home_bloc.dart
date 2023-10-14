@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:logger/logger.dart';
+import 'package:moodflix/config/app_config.dart';
+import 'package:moodflix/core/injection.dart';
 import 'package:moodflix/features/home/data/retrieve_movies_lists.dart';
 import 'package:moodflix/features/movie_search/data/data.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
@@ -14,8 +16,11 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final BuildContext context;
-  HomeBloc(this.context) : super(HomeInitial()) {
+  final Dio dio = getIt<Dio>();
+  final Logger logger = getIt<Logger>();
+  final AppConfig config = getIt<AppConfig>();
+
+  HomeBloc() : super(HomeInitial()) {
     on<HomeEvent>((event, emit) {});
     on<LoadDataEvent>(_loadData);
   }
@@ -24,11 +29,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(DataLoadingState());
     try {
       // Retrieve Home Movies
-      Response<dynamic> responseGet = await getHomeMovies(context);
+      Response<dynamic> responseGet = await getHomeMovies(dio, config);
       if (responseGet.statusCode == 200) {
         // Parse and precache movies
         ParsedMovies parsedMovies =
-            await parseAndPrecacheMovies(responseGet.data, context);
+            await parseAndPrecacheMovies(responseGet.data);
 
         // Emit the DataLoadedState
         emit(DataLoadedState(
@@ -47,17 +52,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         // Send all movies to the database in a single request
         Future<Response<dynamic>> responsePost =
-            sendMoviesToDatabase(allMovies, context);
-        context.read<Logger>().i(responsePost.runtimeType);
+            sendMoviesToDatabase(allMovies, config, dio);
+        logger.i(responsePost.runtimeType);
       } else {
         // Handle other status codes here
         emit(DataErrorState(
             error: "Received status code ${responseGet.statusCode}"));
       }
     } on Exception catch (e, s) {
-      context
-          .read<Logger>()
-          .f("Fatal log", error: e.toString(), stackTrace: s); // Log the error
+      logger.f("Fatal log",
+          error: e.toString(), stackTrace: s); // Log the error
 
       emit(DataErrorState(error: e.toString()));
     }

@@ -16,9 +16,8 @@ class BlocProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = auth_bloc.AuthBloc(context);
-    final homePageBloc = home_bloc.HomeBloc(context)
-      ..add(home_bloc.LoadDataEvent());
+    final authBloc = auth_bloc.AuthBloc();
+    final homePageBloc = home_bloc.HomeBloc()..add(home_bloc.LoadDataEvent());
     final profileBloc = profile_bloc.ProfileBloc()
       ..add(profile_bloc.LoadDataEvent());
     final collectionBloc = collection_bloc.CollectionBloc()

@@ -1,10 +1,10 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
-
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:moodflix/config/app_config.dart';
+import 'package:moodflix/core/injection.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:moodflix/features/movie_search/data/data.dart';
 
@@ -12,9 +12,11 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
-  final BuildContext context;
+  final Dio dio = getIt<Dio>();
+  final Logger logger = getIt<Logger>();
+  final AppConfig config = getIt<AppConfig>();
 
-  MovieSearchBloc(this.context) : super(MovieSearchInitialState()) {
+  MovieSearchBloc() : super(MovieSearchInitialState()) {
     on<MovieSearchEvent>((event, emit) {});
     on<TextChangeEvent>(_onTextChange);
     on<TextWipeEvent>(_onTextWipe);
@@ -26,7 +28,7 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
       emit(MoviesLoadingState());
 
       // Get movies list from our API
-      Response<dynamic> responseGet = await getMovies(event.text, context);
+      Response<dynamic> responseGet = await getMovies(event.text, dio, config);
       if (responseGet.statusCode == 200) {
         // Parse the JSON response
         final List<dynamic> jsonResponse = responseGet.data as List<dynamic>;
@@ -47,13 +49,11 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
         emit(MoviesLoadedState(movies: movies));
 
         // Send movies to our database
-        Future<Response> responsePost = sendMoviesToDatabase(movies, context);
-        print(responsePost.runtimeType);
+        Future<Response> _ = sendMoviesToDatabase(movies, config, dio);
       }
     } on Exception catch (e, s) {
-      context
-          .read<Logger>()
-          .f("Fatal log", error: e.toString(), stackTrace: s); // Log the error
+      logger.f("Fatal log",
+          error: e.toString(), stackTrace: s); // Log the error
 
       emit(MoviesErrorState(error: e.toString()));
     }

@@ -6,15 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:moodflix/config/app_config.dart';
+import 'package:moodflix/core/injection.dart';
 import 'package:moodflix/features/movie_details/data/data.dart';
 
 part 'details_event.dart';
 part 'details_state.dart';
 
 class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
-  final BuildContext context;
+  final Dio dio = getIt<Dio>();
+  final Logger logger = getIt<Logger>();
+  final AppConfig config = getIt<AppConfig>();
 
-  MovieDetailsBloc(this.context) : super(MovieDetailsInitial()) {
+  MovieDetailsBloc() : super(MovieDetailsInitial()) {
     on<MovieDetailsEvent>((event, emit) {});
     on<LoadDataEvent>(_loadMovieGenres);
   }
@@ -24,7 +28,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     emit(DataLoadingState());
     try {
       // Get movies list from our API
-      Response response = await getGenreName(event.genreIds, context);
+      Response response = await getGenreName(event.genreIds, dio, config);
 
       if (response.statusCode == 200) {
         // Parse the JSON response
@@ -34,9 +38,8 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
         emit(DataLoadedState(genreName: stringData));
       }
     } on Exception catch (e, s) {
-      context
-          .read<Logger>()
-          .f("Fatal log", error: e.toString(), stackTrace: s); // Log the error
+      logger.f("Fatal log",
+          error: e.toString(), stackTrace: s); // Log the error
       emit(DataErrorState(error: e.toString()));
     }
   }
