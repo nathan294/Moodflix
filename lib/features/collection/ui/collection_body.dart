@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/features/collection/bloc/collection_bloc.dart';
-import 'package:moodflix/features/collection/models/movie_list.dart'; // Import your MovieList model
 
 class CollectionBody extends StatelessWidget {
   const CollectionBody({Key? key})

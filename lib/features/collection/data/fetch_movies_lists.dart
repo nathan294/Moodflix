@@ -21,8 +21,8 @@ Future<Response<dynamic>> getUserMoviesLists(Dio dio, AppConfig config) async {
   );
 }
 
-List<MovieList> parseMovieLists(Map<String, dynamic> jsonResponse) {
+List<MovieList> parseMovieLists(List<dynamic> jsonResponse) {
   List<MovieList> moviesLists =
-      (jsonResponse as List).map((item) => MovieList.fromJson(item)).toList();
+      (jsonResponse).map((item) => MovieList.fromJson(item)).toList();
   return moviesLists;
 }

@@ -30,8 +30,9 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       Response<dynamic> response = await getUserMoviesLists(dio, config);
 
       if (response.statusCode == 200) {
-        // Parse the response into a list of MovieLists (replace with your actual parsing logic)
-        List<MovieList> movieLists = parseMovieLists(response.data);
+        // Parse the response into a list of MovieLists
+        List<dynamic> responseData = response.data as List<dynamic>;
+        List<MovieList> movieLists = parseMovieLists(responseData);
 
         // Emit the state with the loaded movie lists
         emit(DataLoadedState(moviesLists: movieLists));
