@@ -3,6 +3,9 @@ part of 'auth_bloc.dart';
 @immutable
 sealed class AuthEvent {}
 
+// When App starts
+class AppStarted extends AuthEvent {}
+
 // When the user clicks on the submit button on the sign-up form
 class SignUpButtonEvent extends AuthEvent {
   final String email;

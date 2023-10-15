@@ -12,8 +12,8 @@ class MovieDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => MovieDetailsBloc(context)
-          ..add(LoadDataEvent(genreIds: movie.genreIds)),
+        create: (_) =>
+            MovieDetailsBloc()..add(LoadDataEvent(genreIds: movie.genreIds)),
         child: MovieDetailsPage(
           movie: movie,
         ));
