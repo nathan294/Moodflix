@@ -18,13 +18,6 @@ void setup(AppConfig config) {
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerSingleton<AppConfig>(config);
 
-  // Register Blocs
-  // getIt.registerFactory<AuthBloc>(() => AuthBloc());
-  // getIt.registerFactory<HomeBloc>(() => HomeBloc());
-  // getIt.registerFactory<ProfileBloc>(() => ProfileBloc());
-  // getIt.registerFactory<CollectionBloc>(() => CollectionBloc());
-  // getIt.registerFactory<DiscoverBloc>(() => DiscoverBloc());
-
   getIt.registerLazySingleton<TokenService>(
       () => TokenService(getIt<FlutterSecureStorage>(), getIt<FirebaseAuth>()));
 }

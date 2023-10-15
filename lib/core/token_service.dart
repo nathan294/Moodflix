@@ -16,12 +16,6 @@ class TokenService {
     if (user != null) {
       _token = await user.getIdToken(true);
       await storage.write(key: 'firebase_token', value: _token);
-
-      // // Load data for other Blocs
-      // homePageBloc.add(home_bloc.LoadDataEvent());
-      // profileBloc.add(profile_bloc.LoadDataEvent());
-      // collectionBloc.add(collection_bloc.LoadDataEvent());
-      // discoverBloc.add(discover_bloc.LoadDataEvent());
     } else {
       // Handle user logout: Clear token
       await storage.delete(key: 'firebase_token');
@@ -30,7 +24,11 @@ class TokenService {
   }
 
   Future<String?> getToken() async {
-    _token ??= await storage.read(key: 'firebase_token');
-    return _token;
+    User? user = firebaseAuth.currentUser;
+    if (user != null) {
+      _token = await user.getIdToken(true);
+      return _token;
+    }
+    return null;
   }
 }
