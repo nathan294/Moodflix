@@ -39,6 +39,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     // When Firebase has returned user credentials
     on<CredentialsRetrievedEvent>(_loginWithCredential);
+
+    // When the user logs out
+    on<LogOutEvent>(_logOut);
   }
 
   FutureOr<void> _onAppStart(AppStarted event, Emitter<AuthState> emit) {
@@ -162,5 +165,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       data: jsonEncode(body),
       options: Options(headers: headers),
     );
+  }
+
+  FutureOr<void> _logOut(LogOutEvent event, Emitter<AuthState> emit) async {
+    await firebaseAuth.signOut();
+    emit(AuthInitial());
   }
 }

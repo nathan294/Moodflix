@@ -36,6 +36,7 @@ class BlocProviders extends StatelessWidget {
       ],
       child: BlocListener<auth_bloc.AuthBloc, auth_bloc.AuthState>(
         listener: (context, state) {
+          // When the user is connected, load the data
           if (state is auth_bloc.AuthSuccessedState) {
             homePageBloc.add(home_bloc.LoadDataEvent());
             profileBloc.add(profile_bloc.LoadDataEvent());
