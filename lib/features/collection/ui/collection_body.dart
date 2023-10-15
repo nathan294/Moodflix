@@ -21,7 +21,8 @@ class CollectionBody extends StatelessWidget {
               title: Text(movieList.title),
               subtitle: Text(
                   "Status: ${movieList.status}, Locked: ${movieList.locked ? 'Yes' : 'No'}"),
-              leading: Icon(Icons.movie), // Replace with your preferred icon
+              leading:
+                  const Icon(Icons.movie), // Replace with your preferred icon
               onTap: () {
                 // TODO: Navigate to the detailed view of this movie list
               },
