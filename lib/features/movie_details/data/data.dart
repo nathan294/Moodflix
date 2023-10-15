@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:moodflix/config/app_config.dart';
 
-Future<Response> getGenreName(
-    List<int> genreIds, Dio dio, AppConfig config) async {
+Future<Response> getGenreName(List<int> genreIds, Dio dio) async {
   const String apiUrl = '/movie/get_genre_name';
 
   final Map<String, dynamic> body = {

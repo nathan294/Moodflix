@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
+import 'package:moodflix/features/movie_details/widgets/buttons_row.dart';
 import 'package:moodflix/features/movie_details/widgets/movie_title_row.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 import 'package:shimmer/shimmer.dart';
@@ -74,6 +75,7 @@ List<Widget> buildBody(Movie movie, MovieDetailsState state) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MovieTitleRowWidget(movie: movie, state: state),
+            const ButtonsRow(),
             Text(state.genreName.join(', '),
                 style: const TextStyle(fontStyle: FontStyle.italic)),
             Text(
