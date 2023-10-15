@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moodflix/config/app_config.dart';
-import 'package:moodflix/core/injection.dart';
+import 'package:moodflix/features/auth/bloc/auth_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -31,8 +31,9 @@ class SettingsPage extends StatelessWidget {
             ),
           ElevatedButton(
               onPressed: () {
-                getIt<FirebaseAuth>().signOut();
-                context.go('/login');
+                // Trigger the bloc log out event
+                context.read<AuthBloc>().add(LogOutEvent());
+                context.go("/login");
               },
               child: const Text("Se déconnecter")),
         ],

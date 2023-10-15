@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:moodflix/core/enum/auth_status.dart';
+import 'package:moodflix/core/injection.dart';
 import 'package:moodflix/features/auth/bloc/auth_bloc.dart';
 import 'package:moodflix/features/auth/validators/validators.dart';
 import 'package:moodflix/features/auth/widgets/email_field.dart';
@@ -86,8 +87,7 @@ class SignUpPageState extends State<SignUpPage> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            context
-                                .read<Logger>()
+                            getIt<Logger>()
                                 .i("Email: $email, Password: $password");
 
                             // Trigger the bloc sign up event

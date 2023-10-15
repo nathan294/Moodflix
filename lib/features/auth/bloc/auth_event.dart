@@ -33,3 +33,6 @@ class CredentialsRetrievedEvent extends AuthEvent {
     required this.credential,
   });
 }
+
+// When the user logs out
+class LogOutEvent extends AuthEvent {}
