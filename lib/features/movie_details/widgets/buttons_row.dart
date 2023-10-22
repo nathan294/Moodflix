@@ -24,9 +24,9 @@ class ButtonsRow extends StatelessWidget {
         children: [
           RateButton(
               onRate: (note) => {
-                    context
-                        .read<MovieDetailsBloc>()
-                        .add(RateMovieEvent(ratedMovies, note: note))
+                    // context
+                    //     .read<MovieDetailsBloc>()
+                    //     .add(RateMovieEvent(ratedMovies, note: note))
                   })
         ],
       );

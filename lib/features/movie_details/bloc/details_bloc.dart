@@ -8,9 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/core/injection.dart';
-import 'package:moodflix/features/collection/models/movie_list.dart';
 import 'package:moodflix/features/movie_details/data/data.dart';
-import 'package:moodflix/features/movie_details/data/rating.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
 part 'details_event.dart';
@@ -25,9 +23,8 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   MovieDetailsBloc(this.movie) : super(MovieDetailsInitial()) {
     on<MovieDetailsEvent>((event, emit) {});
     on<LoadDataEvent>(_loadMovieGenres);
+    on<ToggleWishlistEvent>(_toggleWishlist);
     on<RateMovieEvent>(_rateMovie);
-    on<WishlistMovieEvent>(_wishlistMovie);
-    on<CustomListMovieEvent>(_customListMovie);
   }
 
   FutureOr<void> _loadMovieGenres(
@@ -51,26 +48,35 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     }
   }
 
-  FutureOr<void> _rateMovie(
-      RateMovieEvent event, Emitter<MovieDetailsState> emit) async {
-    emit(DataLoadingState());
+  FutureOr<void> _toggleWishlist(
+      ToggleWishlistEvent event, Emitter<MovieDetailsState> emit) async {
+    emit(WishlistUpdatingState());
     try {
-      Response response =
-          await rateMovie(movie, event.movieList, event.note, dio);
-      if (response.statusCode == 200) {
-        logger.i("Movie successfully rated");
-        // RELOAD MOVIES DATA
-      }
-    } on Exception catch (e, s) {
+      // Perform API request to toggle wishlist status and get new status
+      // final newStatus = await toggleWishlistAPI();
+
+      // Emit new state with updated wishlist status
+      // emit(WishlistUpdatedState(isAddedToWishlist: newStatus));
+    } catch (e, s) {
       logger.f("Fatal log",
           error: e.toString(), stackTrace: s); // Log the error
       emit(DataErrorState(error: e.toString()));
     }
   }
 
-  FutureOr<void> _wishlistMovie(
-      WishlistMovieEvent event, Emitter<MovieDetailsState> emit) {}
+  FutureOr<void> _rateMovie(
+      RateMovieEvent event, Emitter<MovieDetailsState> emit) async {
+    emit(RatingUpdatingState());
+    try {
+      // Perform API request to update the rating and get new rating
+      // final newRating = await rateMovieAPI(event.rating);
 
-  FutureOr<void> _customListMovie(
-      CustomListMovieEvent event, Emitter<MovieDetailsState> emit) {}
+      // Emit new state with updated rating
+      // emit(RatingUpdatedState(rating: newRating));
+    } catch (e, s) {
+      logger.f("Fatal log",
+          error: e.toString(), stackTrace: s); // Log the error
+      emit(DataErrorState(error: e.toString()));
+    }
+  }
 }

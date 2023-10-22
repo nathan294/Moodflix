@@ -10,16 +10,12 @@ final class LoadDataEvent extends MovieDetailsEvent {
   LoadDataEvent({required this.genreIds});
 }
 
-// When the user rates a movie
-final class RateMovieEvent extends MovieDetailsEvent {
-  final int note;
-  final MovieList movieList;
+// When user presses the Wishlist button
+class ToggleWishlistEvent extends MovieDetailsEvent {}
 
-  RateMovieEvent(this.movieList, {required this.note});
+// When user rates a movie
+class RateMovieEvent extends MovieDetailsEvent {
+  final int rating;
+
+  RateMovieEvent(this.rating);
 }
-
-// When the user adds a movie to his wishlist
-final class WishlistMovieEvent extends MovieDetailsEvent {}
-
-// When the user adds a movie to a custom list
-final class CustomListMovieEvent extends MovieDetailsEvent {}

@@ -21,3 +21,19 @@ final class DataErrorState extends MovieDetailsState {
 
   List<Object> get props => [error];
 }
+
+class WishlistUpdatingState extends MovieDetailsState {}
+
+class WishlistUpdatedState extends MovieDetailsState {
+  final bool isAddedToWishlist;
+
+  WishlistUpdatedState({required this.isAddedToWishlist});
+}
+
+class RatingUpdatingState extends MovieDetailsState {}
+
+class RatingUpdatedState extends MovieDetailsState {
+  final int rating;
+
+  RatingUpdatedState({required this.rating});
+}
