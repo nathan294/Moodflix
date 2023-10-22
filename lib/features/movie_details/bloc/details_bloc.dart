@@ -22,24 +22,31 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
 
   MovieDetailsBloc(this.movie) : super(MovieDetailsInitial()) {
     on<MovieDetailsEvent>((event, emit) {});
-    on<LoadDataEvent>(_loadMovieGenres);
+    on<LoadDataEvent>(_loadMovieDetailsData);
     on<ToggleWishlistEvent>(_toggleWishlist);
     on<RateMovieEvent>(_rateMovie);
   }
 
-  FutureOr<void> _loadMovieGenres(
+  FutureOr<void> _loadMovieDetailsData(
       LoadDataEvent event, Emitter<MovieDetailsState> emit) async {
     emit(DataLoadingState());
     try {
-      // Get movies list from our API
-      Response response = await getGenreName(event.genreIds, dio);
+      // Get movie details from our API
+      Response response = await getMovieDetailsData(event.movie, dio);
 
       if (response.statusCode == 200) {
         // Parse the JSON response
-        final List<dynamic> responseData = response.data as List<dynamic>;
-        final List<String> stringGenres =
-            responseData.map((item) => item.toString()).toList();
-        emit(DataLoadedState(genreName: stringGenres));
+        final Map<String, dynamic> responseData = response.data;
+
+        // Extract genre names, wishlist status, and rating
+        final List<String> genreNames =
+            List<String>.from(responseData['genre_names']);
+        final bool isWished = responseData['is_wished'];
+        final int? rate = responseData['rate'];
+
+        // Emit DataLoadedState with all three parameters
+        emit(DataLoadedState(
+            genreNames: genreNames, isWished: isWished, rate: rate));
       }
     } on Exception catch (e, s) {
       logger.f("Fatal log",

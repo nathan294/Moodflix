@@ -1,20 +1,21 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:moodflix/core/injection.dart';
+import 'package:moodflix/core/token_service.dart';
+import 'package:moodflix/features/movie_search/models/movie.dart';
 
-Future<Response> getGenreName(List<int> genreIds, Dio dio) async {
-  const String apiUrl = '/v1/movie/get_genre_name';
+Future<Response> getMovieDetailsData(Movie movie, Dio dio) async {
+  final tokenService = getIt<TokenService>();
+  final token = await tokenService.getToken();
 
-  final Map<String, dynamic> body = {
-    'ids': genreIds,
-  };
+  final String apiUrl = '/v1/movie/details/${movie.id}';
+
   final headers = {
     'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token', // Add the token to your request headers
   };
 
-  return await dio.post(
+  return await dio.get(
     apiUrl,
-    data: jsonEncode(body), // data instead of body
     options: Options(headers: headers),
   );
 }

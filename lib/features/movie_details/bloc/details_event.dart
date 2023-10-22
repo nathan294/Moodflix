@@ -5,9 +5,9 @@ sealed class MovieDetailsEvent {}
 
 // Load the data of the movie
 final class LoadDataEvent extends MovieDetailsEvent {
-  final List<int> genreIds;
+  final Movie movie;
 
-  LoadDataEvent({required this.genreIds});
+  LoadDataEvent({required this.movie});
 }
 
 // When user presses the Wishlist button

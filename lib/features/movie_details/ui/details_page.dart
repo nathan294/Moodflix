@@ -14,36 +14,43 @@ class MovieDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            automaticallyImplyLeading: false,
-          ),
-          extendBodyBehindAppBar: true,
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 200,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: ShimmerImagePlaceholder(
-                      imageUrl: movie.backdropPath, fit: BoxFit.cover),
+        if (state is DataLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is DataLoadedState) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              automaticallyImplyLeading: false,
+            ),
+            extendBodyBehindAppBar: true,
+            body: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  expandedHeight: 200,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: ShimmerImagePlaceholder(
+                        imageUrl: movie.backdropPath, fit: BoxFit.cover),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
                 ),
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.of(context).pop(),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    buildBody(movie, state),
+                  ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  buildBody(movie, state),
-                ),
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
+        } else {
+          return const Center(child: Text("Une erreur est survenue"));
+        }
       },
     );
   }
