@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 Future<Response> getGenreName(List<int> genreIds, Dio dio) async {
-  const String apiUrl = '/movie/get_genre_name';
+  const String apiUrl = '/v1/movie/get_genre_name';
 
   final Map<String, dynamic> body = {
     'ids': genreIds,
