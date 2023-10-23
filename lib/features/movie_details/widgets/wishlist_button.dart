@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moodflix/features/movie_details/wishlist_cubit/wishlist_cubit.dart';
+import 'package:moodflix/features/movie_details/blocs/wishlist_cubit/wishlist_cubit.dart';
 
 class WishlistButton extends StatelessWidget {
   final bool isAddedToWishlist;

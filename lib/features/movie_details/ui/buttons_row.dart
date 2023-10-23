@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
+import 'package:moodflix/features/movie_details/blocs/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/widgets/wishlist_button.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 

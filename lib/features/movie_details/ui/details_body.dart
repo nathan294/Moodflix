@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
+import 'package:moodflix/features/movie_details/blocs/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/ui/buttons_row.dart';
 import 'package:moodflix/features/movie_details/widgets/movie_title_row.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
