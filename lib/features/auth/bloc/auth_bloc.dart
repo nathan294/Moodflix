@@ -62,7 +62,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         email: event.email,
         password: event.password,
       );
-      add(CredentialsRetrievedEvent(credential: credential));
+      await FirebaseAuth.instance.currentUser?.reload();
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        add(CredentialsRetrievedEvent(credential: credential));
+      } else {
+        emit(LoginErrorState(
+            error: "Unknown error",
+            message: "Une erreur inconnue est survenue."));
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         emit(LoginErrorState(
@@ -152,7 +161,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<Response> _createUser(User user) async {
     // Prepare url, headers and body of the request
-    final String apiUrl = '${config.apiBaseUrl}/user/';
+    const String apiUrl = '/user/';
     final headers = {'Content-Type': 'application/json; charset=UTF-8'};
     final Map<String, String> body = {
       'email': email,

@@ -7,11 +7,13 @@ final class MovieDetailsInitial extends MovieDetailsState {}
 
 final class DataLoadingState extends MovieDetailsState {}
 
-final class DataLoadedState extends MovieDetailsState {
-  final List<String> genreName;
+class DataLoadedState extends MovieDetailsState {
+  final List<String> genreNames;
+  final bool isWished;
+  final int? rate;
 
-  DataLoadedState({required this.genreName});
-  List<Object> get props => [genreName];
+  DataLoadedState(
+      {required this.genreNames, required this.isWished, this.rate});
 }
 
 final class DataErrorState extends MovieDetailsState {
