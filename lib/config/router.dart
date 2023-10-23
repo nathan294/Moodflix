@@ -103,8 +103,20 @@ final router = GoRouter(
     GoRoute(
         path: '/movie/:id',
         builder: (context, state) {
-          Movie movie = state.extra as Movie;
-          return MovieDetails(movie: movie);
+          // Modifications to handle screen restoring :
+          // when user navigates away and then restore the page, the routing library is trying to reconstruct the state,
+          // and in doing so, it likely uses a serialized form of the extra data
+          // (which would be a Map<String, dynamic>), rather than the original Movie object.
+          if (state.extra is Map<String, dynamic>) {
+            Movie movie = Movie.fromJson(state.extra as Map<String, dynamic>);
+            return MovieDetails(movie: movie);
+          } else if (state.extra is Movie) {
+            Movie movie = state.extra as Movie;
+            return MovieDetails(movie: movie);
+          } else {
+            // Handle error or return an empty container
+            return Container();
+          }
         }),
     GoRoute(
       name: 'settings',
