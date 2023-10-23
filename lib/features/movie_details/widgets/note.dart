@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AvgNoteWidget extends StatelessWidget {
-  final double value; // value should be between 0 and 1
+class NoteWidget extends StatelessWidget {
+  final double? value; // value should be between 0 and 1
+  final String text;
 
-  const AvgNoteWidget({
+  const NoteWidget({
     Key? key,
     required this.value,
+    required this.text,
   }) : super(key: key);
 
   @override
@@ -16,10 +18,10 @@ class AvgNoteWidget extends StatelessWidget {
           alignment: Alignment.center, // This will center align the children
           children: [
             SizedBox(
-              height: 60,
-              width: 60,
+              height: 55,
+              width: 55,
               child: CircularProgressIndicator(
-                value: value / 10, // set the value
+                value: (value != null) ? (value! / 10) : 0, // set the value
                 backgroundColor: Colors.grey[200],
                 strokeWidth: 8.0,
                 valueColor: AlwaysStoppedAnimation<Color>(_fillColor(value)),
@@ -29,26 +31,34 @@ class AvgNoteWidget extends StatelessWidget {
                 child: Column(
               children: [
                 Text(
-                  value.toStringAsFixed(1),
+                  (value != null) ? value!.toStringAsFixed(1) : "-",
                   style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold, height: 1),
+                      fontSize: 18, fontWeight: FontWeight.bold, height: 1),
                 ),
-                const Text("Note", style: TextStyle(fontSize: 11)),
+                // Text(text, style: const TextStyle(fontSize: 11)),
               ],
             )), // Now the Text is centered
           ],
         ),
+        const SizedBox(
+          height: 4,
+        ),
+        Text(text, style: const TextStyle(fontSize: 11)),
       ],
     );
   }
 }
 
-Color _fillColor(double value) {
-  if (value > 7) {
-    return Colors.green;
-  } else if (value > 5) {
-    return Colors.orange;
+Color _fillColor(double? value) {
+  if (value == null) {
+    return Colors.grey;
   } else {
-    return Colors.red;
+    if (value > 7) {
+      return Colors.green;
+    } else if (value > 5) {
+      return Colors.orange;
+    } else {
+      return Colors.red;
+    }
   }
 }

@@ -161,7 +161,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<Response> _createUser(User user) async {
     // Prepare url, headers and body of the request
-    const String apiUrl = '/user/';
+    const String apiUrl = '/v1/user/';
     final headers = {'Content-Type': 'application/json; charset=UTF-8'};
     final Map<String, String> body = {
       'email': email,

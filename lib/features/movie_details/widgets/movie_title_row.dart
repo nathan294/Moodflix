@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moodflix/features/movie_details/blocs/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/widgets/movie_poster.dart';
-import 'package:moodflix/features/movie_details/widgets/avg_note.dart';
-import 'package:moodflix/features/movie_details/widgets/popularity_score.dart';
+import 'package:moodflix/features/movie_details/widgets/note.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
 class MovieTitleRowWidget extends StatelessWidget {
@@ -52,10 +51,13 @@ class MovieTitleRowWidget extends StatelessWidget {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
                 children: [
-                  AvgNoteWidget(value: movie.voteAverage),
-                  PopularityScoreWidget(value: movie.popularity),
+                  // Average note
+                  NoteWidget(value: movie.voteAverage, text: "Note moy."),
+
+                  // User note
+                  NoteWidget(value: state.rate?.toDouble(), text: "Votre note"),
+                  // PopularityScoreWidget(value: movie.popularity),
                 ],
               ),
               MoviePosterWidget(
