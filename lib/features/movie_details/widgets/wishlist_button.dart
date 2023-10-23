@@ -14,39 +14,31 @@ class WishlistButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => WishlistCubit(
-              isAddedToWishlist: isAddedToWishlist,
-              movieId: movieId,
-            ),
-        child: BlocBuilder<WishlistCubit, WishlistState>(
-          builder: (context, state) {
-            // Variable to display the right information
-            late bool isAddedToWishlist;
-            if (state is WishListLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is WishlistAdded) {
-              isAddedToWishlist = true;
-            } else {
-              isAddedToWishlist = false;
-            }
+    return BlocBuilder<WishlistCubit, WishlistState>(
+      builder: (context, state) {
+        // Variable to display the right information
+        late bool isAddedToWishlist;
+        if (state is WishListLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is WishlistAdded) {
+          isAddedToWishlist = true;
+        } else {
+          isAddedToWishlist = false;
+        }
 
-            final icon = isAddedToWishlist
-                ? Icons.bookmark_added_rounded
-                : Icons.bookmark_border_rounded;
+        final icon = isAddedToWishlist
+            ? Icons.bookmark_added_rounded
+            : Icons.bookmark_border_rounded;
 
-            return ElevatedButton(
-              onPressed: () =>
-                  BlocProvider.of<WishlistCubit>(context).toggleWishlist(),
-              // style: ButtonStyle(
-              //     backgroundColor: MaterialStatePropertyAll<Color>(
-              //         isAddedToWishlist ? Colors.white : Colors.white)),
-              child: Icon(
-                icon,
-                color: isAddedToWishlist ? Colors.red : Colors.black,
-              ),
-            );
-          },
-        ));
+        return ElevatedButton(
+          onPressed: () =>
+              BlocProvider.of<WishlistCubit>(context).toggleWishlist(),
+          child: Icon(
+            icon,
+            color: isAddedToWishlist ? Colors.red : Colors.black,
+          ),
+        );
+      },
+    );
   }
 }

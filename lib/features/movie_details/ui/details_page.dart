@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/core/widgets/shimmer_image.dart';
 import 'package:moodflix/features/movie_details/blocs/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/blocs/rating_cubit/rating_cubit.dart';
+import 'package:moodflix/features/movie_details/blocs/wishlist_cubit/wishlist_cubit.dart';
 import 'package:moodflix/features/movie_details/ui/details_body.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
@@ -19,8 +20,17 @@ class MovieDetailsPage extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is DataLoadedState) {
-          return BlocProvider(
-            create: (context) => RatingCubit(rating: state.rate, movie: movie),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    RatingCubit(rating: state.rate, movie: movie),
+              ),
+              BlocProvider(
+                create: (context) => WishlistCubit(
+                    isAddedToWishlist: state.isWished, movieId: movie.id),
+              ),
+            ],
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.transparent,

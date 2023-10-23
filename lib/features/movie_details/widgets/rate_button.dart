@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/features/movie_details/blocs/rating_cubit/rating_cubit.dart';
+import 'package:moodflix/features/movie_details/blocs/wishlist_cubit/wishlist_cubit.dart';
 
 class RateButton extends StatefulWidget {
   final int? selectedRating;
@@ -22,28 +23,39 @@ class RateButtonState extends State<RateButton> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RatingCubit, RatingState>(
-      builder: (context, state) {
-        if (state is MovieNotRated) {
-          return ElevatedButton.icon(
-            onPressed: () {
-              _showModal(context, selectedRating);
-            },
-            icon: const Icon(Icons.star_outline_rounded),
-            label: const Text("Noter"),
-          );
-        } else if (state is MovieRated) {
-          return ElevatedButton.icon(
-            onPressed: () {
-              _showModal(context, state.rating);
-            },
-            icon: const Icon(Icons.check),
-            label: const Text("Noté"),
-          );
-        } else {
-          return const CircularProgressIndicator();
+    return BlocListener<RatingCubit, RatingState>(
+      listener: (context, state) {
+        if (state is MovieRated) {
+          final WishlistState wishlistState =
+              BlocProvider.of<WishlistCubit>(context).state;
+          if (wishlistState is WishlistAdded) {
+            BlocProvider.of<WishlistCubit>(context).toggleWishlist();
+          }
         }
       },
+      child: BlocBuilder<RatingCubit, RatingState>(
+        builder: (context, state) {
+          if (state is MovieNotRated) {
+            return ElevatedButton.icon(
+              onPressed: () {
+                _showModal(context, selectedRating);
+              },
+              icon: const Icon(Icons.star_outline_rounded),
+              label: const Text("Noter"),
+            );
+          } else if (state is MovieRated) {
+            return ElevatedButton.icon(
+              onPressed: () {
+                _showModal(context, state.rating);
+              },
+              icon: const Icon(Icons.check),
+              label: const Text("Noté"),
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 
