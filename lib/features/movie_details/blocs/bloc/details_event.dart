@@ -9,3 +9,9 @@ final class LoadDataEvent extends MovieDetailsEvent {
 
   LoadDataEvent({required this.movie});
 }
+
+final class UpdateUserRating extends MovieDetailsEvent {
+  final int rating;
+
+  UpdateUserRating({required this.rating});
+}

@@ -30,6 +30,10 @@ class WishlistCubit extends Cubit<WishlistState> {
       if (isSuccessfullyRemoved) {
         isAddedToWishlist = !isAddedToWishlist;
         emit(WishlistRemoved());
+      } else {
+        // Revert back the isAddedToWishlist flag if the operation failed
+        isAddedToWishlist = !isAddedToWishlist;
+        emit(WishlistAdded());
       }
     } else {
       // Call API to add to wishlist
@@ -37,6 +41,10 @@ class WishlistCubit extends Cubit<WishlistState> {
       if (isSuccessfullyAdded) {
         isAddedToWishlist = !isAddedToWishlist;
         emit(WishlistAdded());
+      } else {
+        // Revert back the isAddedToWishlist flag if the operation failed
+        isAddedToWishlist = !isAddedToWishlist;
+        emit(WishlistRemoved());
       }
     }
   }

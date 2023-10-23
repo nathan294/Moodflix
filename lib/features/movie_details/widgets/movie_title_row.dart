@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moodflix/features/movie_details/blocs/bloc/details_bloc.dart';
+import 'package:moodflix/features/movie_details/blocs/rating_cubit/rating_cubit.dart';
 import 'package:moodflix/features/movie_details/widgets/movie_poster.dart';
-import 'package:moodflix/features/movie_details/widgets/avg_note.dart';
-import 'package:moodflix/features/movie_details/widgets/popularity_score.dart';
+import 'package:moodflix/features/movie_details/widgets/note.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
 class MovieTitleRowWidget extends StatelessWidget {
@@ -39,6 +40,11 @@ class MovieTitleRowWidget extends StatelessWidget {
           ),
         ),
 
+        // SizedBox between title and poster row
+        const SizedBox(
+          height: 10,
+        ),
+
         // Rest of the content
         SizedBox(
           height: 230,
@@ -47,15 +53,31 @@ class MovieTitleRowWidget extends StatelessWidget {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
                 children: [
-                  AvgNoteWidget(value: movie.voteAverage),
-                  PopularityScoreWidget(value: movie.popularity),
+                  // Average note
+                  NoteWidget(value: movie.voteAverage, text: "Note moy."),
+
+                  // User note
+                  BlocBuilder<RatingCubit, RatingState>(
+                    builder: (context, state) {
+                      if (state is MovieNotRated) {
+                        return const NoteWidget(
+                            value: null, text: "Votre note");
+                      } else if (state is MovieRated) {
+                        return NoteWidget(
+                            value: state.rating.toDouble(), text: "Votre note");
+                      } else {
+                        return const NoteWidget(
+                            value: null, text: "Votre note");
+                      }
+                    },
+                  ),
+                  // PopularityScoreWidget(value: movie.popularity),
                 ],
               ),
               MoviePosterWidget(
                 imageUrl: movie.posterPath,
-                height: 200.0, // Optionally specify a different height
+                height: 210.0, // Optionally specify a different height
               ),
             ],
           ),

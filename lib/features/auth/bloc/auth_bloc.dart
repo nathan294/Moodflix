@@ -134,6 +134,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           logger.i("User created successfully in database");
           emit(AuthSuccessedState(status: AuthStatus.newUser));
         } else {
+          emit(LoginErrorState(
+              error: "Error during user creation",
+              message: "Error during user creation"));
           logger.e(
               "An unknown error occurred, status code ${response.statusCode}");
         }
@@ -161,7 +164,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<Response> _createUser(User user) async {
     // Prepare url, headers and body of the request
-    const String apiUrl = '/user/';
+    const String apiUrl = '/v1/user/';
     final headers = {'Content-Type': 'application/json; charset=UTF-8'};
     final Map<String, String> body = {
       'email': email,
