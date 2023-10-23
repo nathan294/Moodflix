@@ -1,43 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
+import 'package:moodflix/features/movie_details/wishlist_cubit/wishlist_cubit.dart';
 
 class WishlistButton extends StatelessWidget {
-  const WishlistButton({super.key});
+  final bool isAddedToWishlist;
+  final int movieId;
+
+  const WishlistButton({
+    Key? key,
+    required this.isAddedToWishlist,
+    required this.movieId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
-      builder: (context, state) {
-        bool isLoading = false;
-        bool isAddedToWishlist = false;
+    return BlocProvider(
+        create: (context) => WishlistCubit(
+              isAddedToWishlist: isAddedToWishlist,
+              movieId: movieId,
+            ),
+        child: BlocBuilder<WishlistCubit, WishlistState>(
+          builder: (context, state) {
+            // Variable to display the right information
+            late bool isAddedToWishlist;
+            if (state is WishListLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is WishlistAdded) {
+              isAddedToWishlist = true;
+            } else {
+              isAddedToWishlist = false;
+            }
 
-        // Determine button state based on BLoC state
-        if (state is WishlistUpdatingState) {
-          isLoading = true;
-        } else if (state is WishlistUpdatedState) {
-          isAddedToWishlist = state.isAddedToWishlist;
-        }
+            final icon = isAddedToWishlist
+                ? Icons.bookmark_added_rounded
+                : Icons.bookmark_border_rounded;
 
-        // Determine button icon based on whether the movie is in the wishlist
-        final icon = isAddedToWishlist ? Icons.favorite : Icons.favorite_border;
-
-        return ElevatedButton(
-          onPressed: isLoading
-              ? null
-              : () {
-                  // Send ToggleWishlistEvent to BLoC when button is clicked
-                  BlocProvider.of<MovieDetailsBloc>(context)
-                      .add(ToggleWishlistEvent());
-                },
-          child: isLoading
-              ? const CircularProgressIndicator()
-              : Icon(
-                  icon,
-                  color: isAddedToWishlist ? Colors.red : Colors.grey,
-                ),
-        );
-      },
-    );
+            return ElevatedButton(
+              onPressed: () =>
+                  BlocProvider.of<WishlistCubit>(context).toggleWishlist(),
+              child: Icon(
+                icon,
+                color: isAddedToWishlist ? Colors.red : Colors.grey,
+              ),
+            );
+          },
+        ));
   }
 }

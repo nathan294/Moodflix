@@ -23,8 +23,6 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   MovieDetailsBloc(this.movie) : super(MovieDetailsInitial()) {
     on<MovieDetailsEvent>((event, emit) {});
     on<LoadDataEvent>(_loadMovieDetailsData);
-    on<ToggleWishlistEvent>(_toggleWishlist);
-    on<RateMovieEvent>(_rateMovie);
   }
 
   FutureOr<void> _loadMovieDetailsData(
@@ -49,38 +47,6 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
             genreNames: genreNames, isWished: isWished, rate: rate));
       }
     } on Exception catch (e, s) {
-      logger.f("Fatal log",
-          error: e.toString(), stackTrace: s); // Log the error
-      emit(DataErrorState(error: e.toString()));
-    }
-  }
-
-  FutureOr<void> _toggleWishlist(
-      ToggleWishlistEvent event, Emitter<MovieDetailsState> emit) async {
-    emit(WishlistUpdatingState());
-    try {
-      // Perform API request to toggle wishlist status and get new status
-      // final newStatus = await toggleWishlistAPI();
-
-      // Emit new state with updated wishlist status
-      // emit(WishlistUpdatedState(isAddedToWishlist: newStatus));
-    } catch (e, s) {
-      logger.f("Fatal log",
-          error: e.toString(), stackTrace: s); // Log the error
-      emit(DataErrorState(error: e.toString()));
-    }
-  }
-
-  FutureOr<void> _rateMovie(
-      RateMovieEvent event, Emitter<MovieDetailsState> emit) async {
-    emit(RatingUpdatingState());
-    try {
-      // Perform API request to update the rating and get new rating
-      // final newRating = await rateMovieAPI(event.rating);
-
-      // Emit new state with updated rating
-      // emit(RatingUpdatedState(rating: newRating));
-    } catch (e, s) {
       logger.f("Fatal log",
           error: e.toString(), stackTrace: s); // Log the error
       emit(DataErrorState(error: e.toString()));
