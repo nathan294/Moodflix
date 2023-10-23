@@ -39,6 +39,11 @@ class MovieTitleRowWidget extends StatelessWidget {
           ),
         ),
 
+        // SizedBox between title and poster row
+        const SizedBox(
+          height: 10,
+        ),
+
         // Rest of the content
         SizedBox(
           height: 230,
@@ -55,7 +60,7 @@ class MovieTitleRowWidget extends StatelessWidget {
               ),
               MoviePosterWidget(
                 imageUrl: movie.posterPath,
-                height: 200.0, // Optionally specify a different height
+                height: 210.0, // Optionally specify a different height
               ),
             ],
           ),

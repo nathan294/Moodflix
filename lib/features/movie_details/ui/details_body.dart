@@ -12,7 +12,10 @@ List<Widget> buildBody(Movie movie, DataLoadedState state) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MovieTitleRowWidget(movie: movie, state: state),
-          ButtonsRow(movie: movie, state: state),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: ButtonsRow(movie: movie, state: state),
+          ),
           Text(state.genreNames.join(', '),
               style: const TextStyle(fontStyle: FontStyle.italic)),
           Text(
