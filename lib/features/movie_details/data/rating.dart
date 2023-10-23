@@ -13,7 +13,7 @@ Future<Response> rateMovieAPI(int movieId, int rating, Dio dio) async {
     'Authorization': 'Bearer $token',
   };
 
-  return dio.post(
+  return await dio.post(
     apiUrl,
     data: body,
     options: Options(headers: headers),

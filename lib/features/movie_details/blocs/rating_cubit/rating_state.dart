@@ -12,7 +12,11 @@ class RatingLoading extends RatingState {}
 class UserCurrentlyRating extends RatingState {}
 
 // When the movie is rated by the user
-class MovieRated extends RatingState {}
+class MovieRated extends RatingState {
+  final int rating;
+
+  MovieRated({required this.rating});
+}
 
 // When the movie isn't rated by the user
 class MovieNotRated extends RatingState {}

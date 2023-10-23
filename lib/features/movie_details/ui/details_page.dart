@@ -20,7 +20,7 @@ class MovieDetailsPage extends StatelessWidget {
         }
         if (state is DataLoadedState) {
           return BlocProvider(
-            create: (context) => RatingCubit(),
+            create: (context) => RatingCubit(rating: state.rate, movie: movie),
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.transparent,

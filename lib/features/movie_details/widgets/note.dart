@@ -31,7 +31,7 @@ class NoteWidget extends StatelessWidget {
                 child: Column(
               children: [
                 Text(
-                  (value != null) ? value!.toStringAsFixed(1) : "-",
+                  _fillText(value),
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold, height: 1),
                 ),
@@ -55,10 +55,21 @@ Color _fillColor(double? value) {
   } else {
     if (value > 7) {
       return Colors.green;
-    } else if (value > 5) {
+    } else if (value >= 5) {
       return Colors.orange;
     } else {
       return Colors.red;
     }
+  }
+}
+
+String _fillText(double? value) {
+  if (value != null) {
+    if (value % 1 == 0) {
+      return value.toStringAsFixed(0);
+    }
+    return value.toStringAsFixed(1);
+  } else {
+    return "-";
   }
 }

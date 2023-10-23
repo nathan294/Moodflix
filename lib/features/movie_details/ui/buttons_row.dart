@@ -14,7 +14,7 @@ class ButtonsRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const RateButton(),
+        RateButton(selectedRating: state.rate),
         WishlistButton(
           isAddedToWishlist: state.isWished,
           movieId: movie.id,
