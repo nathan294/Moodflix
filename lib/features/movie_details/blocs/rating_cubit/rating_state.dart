@@ -1,4 +1,4 @@
-part of 'rating_cubit_cubit.dart';
+part of 'rating_cubit.dart';
 
 @immutable
 sealed class RatingCubitState {}

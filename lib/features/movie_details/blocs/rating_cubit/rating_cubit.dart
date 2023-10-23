@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/core/injection.dart';
 
-part 'rating_cubit_state.dart';
+part 'rating_state.dart';
 
 class RatingCubitCubit extends Cubit<RatingCubitState> {
   // Classic initial stuff
