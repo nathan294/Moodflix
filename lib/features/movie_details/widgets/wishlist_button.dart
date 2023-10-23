@@ -38,9 +38,12 @@ class WishlistButton extends StatelessWidget {
             return ElevatedButton(
               onPressed: () =>
                   BlocProvider.of<WishlistCubit>(context).toggleWishlist(),
+              // style: ButtonStyle(
+              //     backgroundColor: MaterialStatePropertyAll<Color>(
+              //         isAddedToWishlist ? Colors.white : Colors.white)),
               child: Icon(
                 icon,
-                color: isAddedToWishlist ? Colors.red : Colors.grey,
+                color: isAddedToWishlist ? Colors.red : Colors.black,
               ),
             );
           },

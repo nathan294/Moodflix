@@ -9,7 +9,7 @@ class RateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton.icon(
-      icon: const Icon(Icons.onetwothree_rounded),
+      icon: const Icon(Icons.star_outline_rounded),
       label: const Text("Noter"),
       onPressed: () async {
         // Show dialog when the button is clicked
