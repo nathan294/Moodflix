@@ -134,6 +134,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           logger.i("User created successfully in database");
           emit(AuthSuccessedState(status: AuthStatus.newUser));
         } else {
+          emit(LoginErrorState(
+              error: "Error during user creation",
+              message: "Error during user creation"));
           logger.e(
               "An unknown error occurred, status code ${response.statusCode}");
         }
