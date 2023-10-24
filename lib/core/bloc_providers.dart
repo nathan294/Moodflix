@@ -40,7 +40,7 @@ class BlocProviders extends StatelessWidget {
           if (state is auth_bloc.AuthSuccessedState) {
             homePageBloc.add(home_bloc.LoadDataEvent());
             profileBloc.add(profile_bloc.LoadDataEvent());
-            collectionBloc.add(collection_bloc.LoadDataEvent());
+            collectionBloc.add(collection_bloc.LoadInitialData());
             discoverBloc.add(discover_bloc.LoadDataEvent());
           }
         },
