@@ -45,6 +45,7 @@ class RateButtonState extends State<RateButton> {
       child: BlocBuilder<RatingCubit, RatingState>(
         builder: (context, state) {
           if (state is MovieNotRated) {
+            // When movie is not rated
             return ElevatedButton.icon(
               onPressed: () {
                 _showModal(context, selectedRating);
@@ -53,7 +54,8 @@ class RateButtonState extends State<RateButton> {
               label: const Text("Noter"),
             );
           } else if (state is MovieRated) {
-            return ElevatedButton.icon(
+            // When movie is already rated
+            return FilledButton.icon(
               onPressed: () {
                 _showModal(context, state.rating);
               },
