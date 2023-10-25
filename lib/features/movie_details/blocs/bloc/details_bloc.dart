@@ -30,7 +30,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     emit(DataLoadingState());
     try {
       // Get movie details from our API
-      Response response = await getMovieDetailsData(event.movie, dio);
+      Response response = await getMovieDetailsDataAPI(event.movie, dio);
 
       if (response.statusCode == 200) {
         // Parse the JSON response

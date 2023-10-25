@@ -28,7 +28,8 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
       emit(MoviesLoadingState());
 
       // Get movies list from our API
-      Response<dynamic> responseGet = await getMovies(event.text, dio, config);
+      Response<dynamic> responseGet =
+          await getMoviesByTitleAPI(event.text, dio, config);
       if (responseGet.statusCode == 200) {
         // Parse the JSON response
         final List<dynamic> jsonResponse = responseGet.data as List<dynamic>;
@@ -49,7 +50,7 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
         emit(MoviesLoadedState(movies: movies));
 
         // Send movies to our database
-        Future<Response> _ = sendMoviesToDatabase(movies, config, dio);
+        Future<Response> _ = sendMoviesToDatabaseAPI(movies, config, dio);
       }
     } on Exception catch (e, s) {
       logger.f("Fatal log",

@@ -4,7 +4,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
-Future<Response<dynamic>> getHomeMovies(Dio dio, AppConfig config) async {
+Future<Response<dynamic>> getHomeMoviesAPI(Dio dio, AppConfig config) async {
   return await dio.get('/v1/movie/home_page_lists');
 }
 

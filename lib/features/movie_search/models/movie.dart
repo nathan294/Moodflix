@@ -13,23 +13,26 @@ class Movie {
   final double popularity;
   final double voteAverage;
   final int voteCount;
+  final int? userRating;
+  final bool? userWish;
 
-  Movie({
-    required this.id,
-    required this.title,
-    required this.type,
-    required this.genreIds,
-    required this.originalLanguage,
-    required this.originalTitle,
-    required this.overview,
-    required this.posterPath,
-    required this.backdropPath,
-    required this.releaseDate,
-    required this.releaseYear,
-    required this.popularity,
-    required this.voteAverage,
-    required this.voteCount,
-  });
+  Movie(
+      {required this.id,
+      required this.title,
+      required this.type,
+      required this.genreIds,
+      required this.originalLanguage,
+      required this.originalTitle,
+      required this.overview,
+      required this.posterPath,
+      required this.backdropPath,
+      required this.releaseDate,
+      required this.releaseYear,
+      required this.popularity,
+      required this.voteAverage,
+      required this.voteCount,
+      this.userRating,
+      this.userWish});
 
   // Deserialize a Movie instance from JSON
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -48,6 +51,8 @@ class Movie {
       popularity: json['popularity'].toDouble(),
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'],
+      userRating: json['user_rating'], // will be null if not present
+      userWish: json['user_wish'], // will be null if not present
     );
   }
 
@@ -68,6 +73,8 @@ class Movie {
       'popularity': popularity,
       'vote_average': voteAverage,
       'vote_count': voteCount,
+      'user_rating': userRating, // can be null
+      'user_wish': userWish, // can be null
     };
   }
 
@@ -86,6 +93,8 @@ class Movie {
     double? popularity,
     double? voteAverage,
     int? voteCount,
+    int? userRating,
+    bool? userWish,
   }) {
     return Movie(
       id: id ?? this.id,
@@ -102,6 +111,10 @@ class Movie {
       popularity: popularity ?? this.popularity,
       voteAverage: voteAverage ?? this.voteAverage,
       voteCount: voteCount ?? this.voteCount,
+      userRating: userRating ??
+          this.userRating, // Update if provided, otherwise keep existing
+      userWish: userWish ??
+          this.userWish, // Update if provided, otherwise keep existing
     );
   }
 }
