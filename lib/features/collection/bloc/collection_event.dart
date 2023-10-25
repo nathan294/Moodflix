@@ -6,3 +6,5 @@ sealed class CollectionEvent {}
 final class LoadInitialData extends CollectionEvent {}
 
 final class FetchWishDataEvent extends CollectionEvent {}
+
+final class FetchRatedDataEvent extends CollectionEvent {}

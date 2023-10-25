@@ -27,4 +27,23 @@ class Repository {
       rethrow; // Re-throw the exception to ensure non-nullable return
     }
   }
+
+  Future<List<Movie>> getRatedMovies(int skip, int limit) async {
+    try {
+      Response response = await dataProvider.getRatedMoviesAPI(skip, limit);
+      if (response.statusCode == 200) {
+        dynamic data = response.data;
+        List<Movie> ratedMovies =
+            (data as List).map((item) => Movie.fromJson(item)).toList();
+        return ratedMovies;
+      } else {
+        // Handle non-200 status code
+        throw Exception('Failed to fetch rated movies: ${response.statusCode}');
+      }
+    } on Exception catch (e, s) {
+      logger.f("Fatal log",
+          error: e.toString(), stackTrace: s); // Log the error
+      rethrow; // Re-throw the exception to ensure non-nullable return
+    }
+  }
 }

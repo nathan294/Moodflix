@@ -23,6 +23,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
     on<CollectionEvent>((event, emit) {});
     on<LoadInitialData>(_loadInitialData);
     on<FetchWishDataEvent>(_fetchWishData);
+    on<FetchRatedDataEvent>(_fetchRatedData);
   }
 
   FutureOr<void> _loadInitialData(
@@ -31,10 +32,13 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
     try {
       List<Movie> wishedMovies =
           await repository.getWishedMovies(0, numberOfItemsPerFetch);
+      List<Movie> ratedMovies =
+          await repository.getRatedMovies(0, numberOfItemsPerFetch);
       emit(DataLoadedState(
           wishedMovies: wishedMovies,
-          ratedMovies: const [],
-          hasReachedMax: false));
+          ratedMovies: ratedMovies,
+          hasReachedMaxRated: false,
+          hasReachedMaxWished: false));
     } on Exception catch (e, s) {
       logger.e("Fatal log",
           error: e.toString(), stackTrace: s); // Log the error
@@ -51,15 +55,41 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       List<Movie> wishedMovies = await repository.getWishedMovies(
           currentState.wishedMovies.length, numberOfItemsPerFetch);
       if (wishedMovies.isEmpty) {
-        emit(currentState.copyWith(hasReachedMax: true));
+        emit(currentState.copyWith(hasReachedMaxWished: true));
       } else if (wishedMovies.length != numberOfItemsPerFetch) {
         emit(currentState.copyWith(
             wishedMovies: currentState.wishedMovies + wishedMovies,
-            hasReachedMax: true));
+            hasReachedMaxWished: true));
       } else {
         emit(currentState.copyWith(
             wishedMovies: currentState.wishedMovies + wishedMovies,
-            hasReachedMax: false));
+            hasReachedMaxWished: false));
+      }
+    } on Exception catch (e, s) {
+      logger.e("Fatal log",
+          error: e.toString(), stackTrace: s); // Log the error
+
+      emit(DataErrorState(error: e.toString()));
+    }
+  }
+
+  FutureOr<void> _fetchRatedData(
+      FetchRatedDataEvent event, Emitter<CollectionState> emit) async {
+    DataLoadedState currentState = state as DataLoadedState;
+    emit(FetchingState());
+    try {
+      List<Movie> ratedMovies = await repository.getRatedMovies(
+          currentState.wishedMovies.length, numberOfItemsPerFetch);
+      if (ratedMovies.isEmpty) {
+        emit(currentState.copyWith(hasReachedMaxRated: true));
+      } else if (ratedMovies.length != numberOfItemsPerFetch) {
+        emit(currentState.copyWith(
+            ratedMovies: currentState.ratedMovies + ratedMovies,
+            hasReachedMaxRated: true));
+      } else {
+        emit(currentState.copyWith(
+            ratedMovies: currentState.ratedMovies + ratedMovies,
+            hasReachedMaxRated: false));
       }
     } on Exception catch (e, s) {
       logger.e("Fatal log",

@@ -24,4 +24,20 @@ class DataProvider {
       options: Options(headers: headers),
     );
   }
+
+  Future<Response> getRatedMoviesAPI(int skip, int limit) async {
+    final tokenService = getIt<TokenService>();
+    final token = await tokenService.getToken();
+
+    String apiUrl = '/v1/user_interaction/rate?skip=$skip&limit=$limit';
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+
+    return dio.get(
+      apiUrl,
+      options: Options(headers: headers),
+    );
+  }
 }

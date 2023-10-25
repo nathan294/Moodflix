@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/features/collection/bloc/collection_bloc.dart';
-import 'package:moodflix/features/collection/widgets/movie_list_temp.dart';
+import 'package:moodflix/features/collection/widgets/movie_list_card.dart';
 
 class CollectionBody extends StatefulWidget {
   const CollectionBody({super.key});
@@ -18,11 +18,24 @@ class _CollectionBodyState extends State<CollectionBody> {
     return BlocBuilder<CollectionBloc, CollectionState>(
       builder: (context, state) {
         if (state is DataLoadingState) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (state is DataErrorState) {
           return const Text('Erreur dans le chargement des données');
         } else if (state is DataLoadedState) {
-          return MovieListWidget(movieList: state.wishedMovies);
+          return Column(
+            children: [
+              MovieListCard(
+                cardTitle: "Vos dernières notes",
+                movieList: state.ratedMovies,
+                padding: const EdgeInsets.only(bottom: 8, top: 3),
+              ),
+              MovieListCard(
+                cardTitle: "Vos envies récentes",
+                movieList: state.wishedMovies,
+                padding: const EdgeInsets.only(top: 8, bottom: 3),
+              ),
+            ],
+          );
         } else {
           return const Text('Une erreur inconnue est surveneue');
         }
