@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moodflix/features/collection/bloc/collection_bloc.dart';
 import 'package:moodflix/features/movie_details/blocs/rating_cubit/rating_cubit.dart';
 import 'package:moodflix/features/movie_details/blocs/wishlist_cubit/wishlist_cubit.dart';
 
@@ -26,11 +27,19 @@ class RateButtonState extends State<RateButton> {
     return BlocListener<RatingCubit, RatingState>(
       listener: (context, state) {
         if (state is MovieRated) {
+          // Unwish the movie if it has been added to wishlist
           final WishlistState wishlistState =
               BlocProvider.of<WishlistCubit>(context).state;
           if (wishlistState is WishlistAdded) {
             BlocProvider.of<WishlistCubit>(context).toggleWishlist();
           }
+
+          // Reload CollectionBloc data
+          BlocProvider.of<CollectionBloc>(context).add(LoadInitialData());
+        }
+        if (state is MovieNotRated) {
+          // Reload CollectionBloc data
+          BlocProvider.of<CollectionBloc>(context).add(LoadInitialData());
         }
       },
       child: BlocBuilder<RatingCubit, RatingState>(
