@@ -5,4 +5,4 @@ sealed class CollectionEvent {}
 
 final class LoadInitialData extends CollectionEvent {}
 
-final class FetchDataEvent extends CollectionEvent {}
+final class FetchWishDataEvent extends CollectionEvent {}

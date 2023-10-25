@@ -4,12 +4,12 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:moodflix/config/app_config.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
-Future<Response<dynamic>> getMovies(
+Future<Response<dynamic>> getMoviesByTitleAPI(
     String text, Dio dio, AppConfig config) async {
   return await dio.get('/v1/movie/?title=$text');
 }
 
-Future<Response> sendMoviesToDatabase(
+Future<Response> sendMoviesToDatabaseAPI(
     List<Movie> movies, AppConfig config, Dio dio) async {
   const String apiUrl = '/v1/movie/';
 

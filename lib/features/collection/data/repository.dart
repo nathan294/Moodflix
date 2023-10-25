@@ -10,7 +10,7 @@ class Repository {
 
   Future<List<Movie>> getWishedMovies(int skip, int limit) async {
     try {
-      Response response = await dataProvider.fetchWishedMovies(skip, limit);
+      Response response = await dataProvider.getWishedMoviesAPI(skip, limit);
       if (response.statusCode == 200) {
         dynamic data = response.data;
         List<Movie> wishedMovies =

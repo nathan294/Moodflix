@@ -17,20 +17,24 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
   final Logger logger = getIt<Logger>();
   final AppConfig config = getIt<AppConfig>();
   final Repository repository = Repository();
+  final int numberOfItemsPerFetch = 10;
 
   CollectionBloc() : super(CollectionInitial()) {
     on<CollectionEvent>((event, emit) {});
     on<LoadInitialData>(_loadInitialData);
-    on<FetchDataEvent>(_fetchData);
+    on<FetchWishDataEvent>(_fetchWishData);
   }
 
   FutureOr<void> _loadInitialData(
       LoadInitialData event, Emitter<CollectionState> emit) async {
     emit(DataLoadingState());
     try {
-      List<Movie> wishedMovies = await repository.getWishedMovies(0, 10);
+      List<Movie> wishedMovies =
+          await repository.getWishedMovies(0, numberOfItemsPerFetch);
       emit(DataLoadedState(
-          wishedMovies: wishedMovies, ratedMovies: [], hasReachedMax: false));
+          wishedMovies: wishedMovies,
+          ratedMovies: const [],
+          hasReachedMax: false));
     } on Exception catch (e, s) {
       logger.e("Fatal log",
           error: e.toString(), stackTrace: s); // Log the error
@@ -39,19 +43,24 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
     }
   }
 
-  FutureOr<void> _fetchData(
-      FetchDataEvent event, Emitter<CollectionState> emit) async {
+  FutureOr<void> _fetchWishData(
+      FetchWishDataEvent event, Emitter<CollectionState> emit) async {
     DataLoadedState currentState = state as DataLoadedState;
     emit(FetchingState());
     try {
       List<Movie> wishedMovies = await repository.getWishedMovies(
-          currentState.wishedMovies.length, 10);
-
-      emit(wishedMovies.isEmpty
-          ? currentState.copyWith(hasReachedMax: true)
-          : currentState.copyWith(
-              wishedMovies: currentState.wishedMovies + wishedMovies,
-              hasReachedMax: true));
+          currentState.wishedMovies.length, numberOfItemsPerFetch);
+      if (wishedMovies.isEmpty) {
+        emit(currentState.copyWith(hasReachedMax: true));
+      } else if (wishedMovies.length != numberOfItemsPerFetch) {
+        emit(currentState.copyWith(
+            wishedMovies: currentState.wishedMovies + wishedMovies,
+            hasReachedMax: true));
+      } else {
+        emit(currentState.copyWith(
+            wishedMovies: currentState.wishedMovies + wishedMovies,
+            hasReachedMax: false));
+      }
     } on Exception catch (e, s) {
       logger.e("Fatal log",
           error: e.toString(), stackTrace: s); // Log the error

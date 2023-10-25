@@ -3,7 +3,7 @@ import 'package:moodflix/core/injection.dart';
 import 'package:moodflix/core/token_service.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
-Future<Response> getMovieDetailsData(Movie movie, Dio dio) async {
+Future<Response> getMovieDetailsDataAPI(Movie movie, Dio dio) async {
   final tokenService = getIt<TokenService>();
   final token = await tokenService.getToken();
 

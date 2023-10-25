@@ -29,7 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(DataLoadingState());
     try {
       // Retrieve Home Movies
-      Response<dynamic> responseGet = await getHomeMovies(dio, config);
+      Response<dynamic> responseGet = await getHomeMoviesAPI(dio, config);
       if (responseGet.statusCode == 200) {
         // Parse and precache movies
         ParsedMovies parsedMovies =
@@ -52,7 +52,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         // Send all movies to the database in a single request
         Future<Response<dynamic>> _ =
-            sendMoviesToDatabase(allMovies, config, dio);
+            sendMoviesToDatabaseAPI(allMovies, config, dio);
       } else {
         // Handle other status codes here
         emit(DataErrorState(

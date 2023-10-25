@@ -9,7 +9,7 @@ class DataProvider {
   final Logger logger = getIt<Logger>();
   final AppConfig config = getIt<AppConfig>();
 
-  Future<Response> fetchWishedMovies(int skip, int limit) async {
+  Future<Response> getWishedMoviesAPI(int skip, int limit) async {
     final tokenService = getIt<TokenService>();
     final token = await tokenService.getToken();
 
