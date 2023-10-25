@@ -48,7 +48,7 @@ class RateButtonState extends State<RateButton> {
             // When movie is not rated
             return ElevatedButton.icon(
               onPressed: () {
-                _showModal(context, selectedRating);
+                _showModal(context, null);
               },
               icon: const Icon(Icons.star_outline_rounded),
               label: const Text("Noter"),
@@ -120,6 +120,8 @@ class RateButtonState extends State<RateButton> {
                                 onTap: () {
                                   setState(() {
                                     selectedRating = e;
+                                    clearClicked =
+                                        false; // Set to false when clicked
                                   });
                                 },
                                 child: Container(
