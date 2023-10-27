@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:moodflix/features/collection/widgets/rating_chip.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
 class MovieCard extends StatelessWidget {
@@ -38,27 +39,9 @@ class MovieCard extends StatelessWidget {
                 Positioned(
                   top: 8,
                   right: 8,
-                  child: Container(
-                    width: 35, // Fixed width
-                    height: 35, // Fixed height
-                    // padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: _fillColor(movie.userRating!),
-                      border: Border.all(
-                        color: Colors.black.withOpacity(0.5),
-                        width: 1.0,
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        movie.userRating.toString(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                  child: RatingChip(
+                    movie: movie,
+                    opacity: 0.8,
                   ),
                 ),
             ]),
@@ -75,15 +58,5 @@ class MovieCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Color _fillColor(int value) {
-    if (value > 7) {
-      return Colors.green.withOpacity(0.8);
-    } else if (value >= 5) {
-      return Colors.orange.withOpacity(0.8);
-    } else {
-      return Colors.red.withOpacity(0.8);
-    }
   }
 }
