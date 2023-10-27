@@ -28,7 +28,9 @@ class MovieDetailsPage extends StatelessWidget {
               ),
               BlocProvider(
                 create: (context) => WishlistCubit(
-                    isAddedToWishlist: state.isWished, movieId: movie.id),
+                    isMovieRated: (state.rate != null),
+                    isAddedToWishlist: state.isWished,
+                    movieId: movie.id),
               ),
             ],
             child: Scaffold(

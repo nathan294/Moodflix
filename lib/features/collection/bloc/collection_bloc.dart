@@ -22,7 +22,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
   CollectionBloc() : super(CollectionInitial()) {
     on<CollectionEvent>((event, emit) {});
     on<LoadInitialData>(_loadInitialData);
-    on<FetchWishDataEvent>(_fetchWishData);
+    on<FetchWishedDataEvent>(_fetchWishedData);
     on<FetchRatedDataEvent>(_fetchRatedData);
   }
 
@@ -47,10 +47,10 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
     }
   }
 
-  FutureOr<void> _fetchWishData(
-      FetchWishDataEvent event, Emitter<CollectionState> emit) async {
+  FutureOr<void> _fetchWishedData(
+      FetchWishedDataEvent event, Emitter<CollectionState> emit) async {
     DataLoadedState currentState = state as DataLoadedState;
-    emit(FetchingState());
+    // emit(FetchingState());
     try {
       List<Movie> wishedMovies = await repository.getWishedMovies(
           currentState.wishedMovies.length, numberOfItemsPerFetch);
@@ -76,10 +76,10 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
   FutureOr<void> _fetchRatedData(
       FetchRatedDataEvent event, Emitter<CollectionState> emit) async {
     DataLoadedState currentState = state as DataLoadedState;
-    emit(FetchingState());
+    // emit(FetchingState());
     try {
       List<Movie> ratedMovies = await repository.getRatedMovies(
-          currentState.wishedMovies.length, numberOfItemsPerFetch);
+          currentState.ratedMovies.length, numberOfItemsPerFetch);
       if (ratedMovies.isEmpty) {
         emit(currentState.copyWith(hasReachedMaxRated: true));
       } else if (ratedMovies.length != numberOfItemsPerFetch) {

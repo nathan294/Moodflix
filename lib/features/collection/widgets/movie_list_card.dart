@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moodflix/core/enum/movie_list_type.dart';
 import 'package:moodflix/features/collection/widgets/movie_card.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
@@ -6,12 +8,14 @@ class MovieListCard extends StatelessWidget {
   final List<Movie> movieList;
   final String cardTitle;
   final EdgeInsets padding;
+  final MovieListType movieListType;
 
   const MovieListCard({
     super.key,
     required this.movieList,
     required this.cardTitle,
     required this.padding,
+    required this.movieListType,
   });
 
   @override
@@ -23,13 +27,15 @@ class MovieListCard extends StatelessWidget {
         double calculatedHeight = (scaffoldBodyHeight / 2) - padding.vertical;
 
         // Update the moviePosterHeight based on the calculated height.
-        int moviePosterHeight = (calculatedHeight * 1.3).toInt();
+        double moviePosterHeight = (calculatedHeight * 1.3);
         return Padding(
           padding: padding,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
               height: calculatedHeight,
+
+              // Whole card
               child: Card(
                 elevation: 4,
                 child: Padding(
@@ -42,20 +48,31 @@ class MovieListCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // Card title
                           Text(
                             cardTitle,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
+
+                          // Button to view all movies
                           TextButton(
                             onPressed: () {
                               // Handle "Voir tout" click
+                              if (movieListType == MovieListType.wishedMovies) {
+                                context.pushNamed('wished_movies');
+                              } else if (movieListType ==
+                                  MovieListType.ratedMovies) {
+                                context.pushNamed('rated_movies');
+                              }
                             },
                             child: const Text('Voir tout'),
                           ),
                         ],
                       ),
                       const SizedBox(height: 5),
+
+                      // Horizontal scrollable view to display movies
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -65,7 +82,8 @@ class MovieListCard extends StatelessWidget {
                                     padding: const EdgeInsets.only(right: 14),
                                     child: GestureDetector(
                                       onTap: () {
-                                        // Handle movie click
+                                        context.push('/movie/${movie.id}',
+                                            extra: movie);
                                       },
                                       child: MovieCard(
                                         movie: movie,

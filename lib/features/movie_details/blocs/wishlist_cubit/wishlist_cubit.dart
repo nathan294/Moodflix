@@ -15,13 +15,27 @@ class WishlistCubit extends Cubit<WishlistState> {
   final AppConfig config = getIt<AppConfig>();
 
   bool isAddedToWishlist; // initial wishlist status
+  bool isMovieRated; // only for initial status
   final int movieId; // movie ID
 
-  WishlistCubit({required this.isAddedToWishlist, required this.movieId})
-      : super(isAddedToWishlist ? WishlistAdded() : WishlistRemoved());
+  WishlistCubit(
+      {required this.isMovieRated,
+      required this.isAddedToWishlist,
+      required this.movieId})
+      : super(_init(isAddedToWishlist, isMovieRated));
+
+  static WishlistState _init(bool isAddedToWishlist, bool isMovieRated) {
+    if (isMovieRated) {
+      return WishlistUnavailable();
+    } else if (isAddedToWishlist) {
+      return WishlistAdded();
+    } else {
+      return WishlistRemoved();
+    }
+  }
 
   // Function to toggle wishlist
-  void toggleWishlist() async {
+  Future<void> toggleWishlist({bool? isMovieRated}) async {
     emit(WishListLoading());
     if (isAddedToWishlist) {
       // Call API to remove from wishlist
@@ -29,7 +43,11 @@ class WishlistCubit extends Cubit<WishlistState> {
           await removeMovieFromWishlistAPI(movieId, dio);
       if (isSuccessfullyRemoved) {
         isAddedToWishlist = !isAddedToWishlist;
-        emit(WishlistRemoved());
+        if (isMovieRated != null && isMovieRated) {
+          emit(WishlistUnavailable());
+        } else {
+          emit(WishlistRemoved());
+        }
       } else {
         // Revert back the isAddedToWishlist flag if the operation failed
         isAddedToWishlist = !isAddedToWishlist;
@@ -46,6 +64,16 @@ class WishlistCubit extends Cubit<WishlistState> {
         isAddedToWishlist = !isAddedToWishlist;
         emit(WishlistRemoved());
       }
+    }
+  }
+
+  Future<void> toggleWishlistAvailability({required bool isMovieRated}) async {
+    if (isMovieRated) {
+      // If the movie is rated, make the wishlist button unavailable
+      emit(WishlistUnavailable());
+    } else {
+      // When movie is no longer rated, allow the user to wish the movie again
+      emit(WishlistRemoved());
     }
   }
 }

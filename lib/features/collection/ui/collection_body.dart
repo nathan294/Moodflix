@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moodflix/core/enum/movie_list_type.dart';
 import 'package:moodflix/features/collection/bloc/collection_bloc.dart';
 import 'package:moodflix/features/collection/widgets/movie_list_card.dart';
 
@@ -28,12 +29,13 @@ class _CollectionBodyState extends State<CollectionBody> {
                 cardTitle: "Vos dernières notes",
                 movieList: state.ratedMovies,
                 padding: const EdgeInsets.only(bottom: 8, top: 3),
+                movieListType: MovieListType.ratedMovies,
               ),
               MovieListCard(
-                cardTitle: "Vos envies récentes",
-                movieList: state.wishedMovies,
-                padding: const EdgeInsets.only(top: 8, bottom: 3),
-              ),
+                  cardTitle: "Vos envies récentes",
+                  movieList: state.wishedMovies,
+                  padding: const EdgeInsets.only(top: 8, bottom: 3),
+                  movieListType: MovieListType.wishedMovies),
             ],
           );
         } else {

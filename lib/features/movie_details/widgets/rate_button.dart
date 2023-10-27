@@ -31,43 +31,61 @@ class RateButtonState extends State<RateButton> {
           final WishlistState wishlistState =
               BlocProvider.of<WishlistCubit>(context).state;
           if (wishlistState is WishlistAdded) {
-            BlocProvider.of<WishlistCubit>(context).toggleWishlist();
+            BlocProvider.of<WishlistCubit>(context)
+                .toggleWishlist(isMovieRated: true);
+          } else {
+            // Make wishlistbutton unavailable
+            BlocProvider.of<WishlistCubit>(context)
+                .toggleWishlistAvailability(isMovieRated: true);
           }
 
           // Reload CollectionBloc data
           BlocProvider.of<CollectionBloc>(context).add(LoadInitialData());
         }
         if (state is MovieNotRated) {
+          // Make wishlistbutton available again
+          BlocProvider.of<WishlistCubit>(context)
+              .toggleWishlistAvailability(isMovieRated: false);
+
           // Reload CollectionBloc data
           BlocProvider.of<CollectionBloc>(context).add(LoadInitialData());
         }
       },
       child: BlocBuilder<RatingCubit, RatingState>(
         builder: (context, state) {
-          if (state is MovieNotRated) {
-            // When movie is not rated
-            return ElevatedButton.icon(
-              onPressed: () {
-                _showModal(context, null);
-              },
-              icon: const Icon(Icons.star_outline_rounded),
-              label: const Text("Noter"),
-            );
-          } else if (state is MovieRated) {
-            // When movie is already rated
-            return FilledButton.icon(
-              onPressed: () {
-                _showModal(context, state.rating);
-              },
-              icon: const Icon(Icons.check),
-              label: const Text("Noté"),
-            );
-          } else {
-            return const CircularProgressIndicator();
-          }
+          return SizedBox(
+            width: 110, // Fixed width, adjust as needed
+            child: Center(
+              child: _buildButtonContent(state, context),
+            ),
+          );
         },
       ),
     );
+  }
+
+  Widget _buildButtonContent(RatingState state, BuildContext context) {
+    if (state is MovieNotRated) {
+      // When movie is not rated
+      return ElevatedButton.icon(
+        onPressed: () {
+          _showModal(context, null);
+        },
+        icon: const Icon(Icons.star_outline_rounded),
+        label: const Text("Noter"),
+      );
+    } else if (state is MovieRated) {
+      // When movie is already rated
+      return FilledButton.icon(
+        onPressed: () {
+          _showModal(context, state.rating);
+        },
+        icon: const Icon(Icons.check),
+        label: const Text("Noté"),
+      );
+    } else {
+      return const CircularProgressIndicator();
+    }
   }
 
   _showModal(BuildContext context, int? initialRating) {
