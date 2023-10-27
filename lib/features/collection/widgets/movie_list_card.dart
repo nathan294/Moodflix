@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moodflix/core/enum/movie_list_type.dart';
 import 'package:moodflix/features/collection/widgets/movie_card.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
@@ -7,12 +8,14 @@ class MovieListCard extends StatelessWidget {
   final List<Movie> movieList;
   final String cardTitle;
   final EdgeInsets padding;
+  final MovieListType movieListType;
 
   const MovieListCard({
     super.key,
     required this.movieList,
     required this.cardTitle,
     required this.padding,
+    required this.movieListType,
   });
 
   @override
@@ -56,6 +59,12 @@ class MovieListCard extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               // Handle "Voir tout" click
+                              if (movieListType == MovieListType.wishedMovies) {
+                                context.pushNamed('wished_movies');
+                              } else if (movieListType ==
+                                  MovieListType.ratedMovies) {
+                                context.pushNamed('rated_movies');
+                              }
                             },
                             child: const Text('Voir tout'),
                           ),

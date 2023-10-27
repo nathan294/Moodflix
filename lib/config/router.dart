@@ -7,6 +7,8 @@ import 'package:moodflix/features/auth/ui/login_page.dart';
 import 'package:moodflix/features/auth/ui/signin_page.dart';
 import 'package:moodflix/features/auth/ui/signup_page.dart';
 import 'package:moodflix/features/collection/ui/collection_page.dart';
+import 'package:moodflix/features/collection/ui/rated_movies.dart';
+import 'package:moodflix/features/collection/ui/wished_movies.dart';
 import 'package:moodflix/features/discover/ui/discover_page.dart';
 import 'package:moodflix/features/home/ui/home_page.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
@@ -57,9 +59,20 @@ final router = GoRouter(
         // The route branch for Social Tab
         StatefulShellBranch(routes: <RouteBase>[
           GoRoute(
-            path: '/collection',
-            builder: (context, state) => const CollectionPage(),
-          ),
+              path: '/collection',
+              builder: (context, state) => const CollectionPage(),
+              routes: <RouteBase>[
+                GoRoute(
+                  name: "rated_movies",
+                  path: "rated_movies",
+                  builder: (context, state) => const RatedMovies(),
+                ),
+                GoRoute(
+                  name: "wished_movies",
+                  path: "wished_movies",
+                  builder: (context, state) => const WishedMovies(),
+                ),
+              ]),
         ]),
 
         // The route branch for Profile Tab
