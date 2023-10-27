@@ -42,8 +42,6 @@ class MovieListCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,46 +53,69 @@ class MovieListCard extends StatelessWidget {
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
 
-                          // Button to view all movies
-                          TextButton(
-                            onPressed: () {
-                              // Handle "Voir tout" click
-                              if (movieListType == MovieListType.wishedMovies) {
-                                context.pushNamed('wished_movies');
-                              } else if (movieListType ==
-                                  MovieListType.ratedMovies) {
-                                context.pushNamed('rated_movies');
-                              }
-                            },
-                            child: const Text('Voir tout'),
-                          ),
+                          if (movieList.isNotEmpty)
+                            // Button to view all movies
+                            TextButton(
+                              onPressed: () {
+                                // Handle "Voir tout" click
+                                if (movieListType ==
+                                    MovieListType.wishedMovies) {
+                                  context.pushNamed('wished_movies');
+                                } else if (movieListType ==
+                                    MovieListType.ratedMovies) {
+                                  context.pushNamed('rated_movies');
+                                }
+                              },
+                              child: const Text('Voir tout'),
+                            ),
+                          if (movieList.isEmpty)
+                            // Button disabled
+                            const TextButton(
+                                onPressed: null, child: Text('Voir tout')),
                         ],
                       ),
                       const SizedBox(height: 5),
 
-                      // Horizontal scrollable view to display movies
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: movieList
-                              .take(10)
-                              .map((movie) => Padding(
-                                    padding: const EdgeInsets.only(right: 14),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        context.push('/movie/${movie.id}',
-                                            extra: movie);
-                                      },
-                                      child: MovieCard(
-                                        movie: movie,
-                                        moviePosterHeight:
-                                            moviePosterHeight, // Pass the height
+                      // If movie list is not empty
+                      if (movieList.isNotEmpty)
+                        // Horizontal scrollable view to display movies
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: movieList
+                                .take(10)
+                                .map((movie) => Padding(
+                                      padding: const EdgeInsets.only(right: 14),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          context.push('/movie/${movie.id}',
+                                              extra: movie);
+                                        },
+                                        child: MovieCard(
+                                          movie: movie,
+                                          moviePosterHeight:
+                                              moviePosterHeight, // Pass the height
+                                        ),
                                       ),
-                                    ),
-                                  ))
-                              .toList(),
+                                    ))
+                                .toList(),
+                          ),
                         ),
-                      ),
+
+                      // If no movies in the wished list
+                      if (movieList.isEmpty &&
+                          movieListType == MovieListType.wishedMovies)
+                        const Center(
+                          child: Text(
+                              "Vous n'avez ajouté aucun film à vos envies."),
+                        ),
+
+                      // If no movies in the rated list
+                      if (movieList.isEmpty &&
+                          movieListType == MovieListType.ratedMovies)
+                        const Center(
+                          child: Text("Vous n'avez pas encore noté de film."),
+                        )
                     ],
                   ),
                 ),

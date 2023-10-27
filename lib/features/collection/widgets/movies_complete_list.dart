@@ -19,9 +19,24 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
   // Scroll controller will listen to scroll & will allow to fetch more data
   final ScrollController _scrollController = ScrollController();
 
+  // ScrollController's listener in the initState
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  // ScrollController listener; when we arrive at the end of the list,
+  // fetch data if we're not at the max
+  void _onScroll() {
+    final state = BlocProvider.of<CollectionBloc>(context).state;
+
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !hasReachedMax(state, widget.movieListType)) {
+      BlocProvider.of<CollectionBloc>(context)
+          .add(fetchEvent(widget.movieListType));
+    }
   }
 
   // Dispose the scroll controller to avoid memory leaks
@@ -35,58 +50,44 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
   Widget build(BuildContext context) {
     return BlocBuilder<CollectionBloc, CollectionState>(
         builder: (context, CollectionState state) {
-      // Store the current state in a variable for use in the ScrollController
-      final currentState = state;
-
-      // ScrollController listener; when we arrive at the end of the list,
-      // fetch data if we're not at the max
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (!hasReachedMax(currentState, widget.movieListType)) {
-            BlocProvider.of<CollectionBloc>(context)
-                .add(fetchEvent(widget.movieListType));
-          }
-        }
-      });
-
-      // State will always be DataLoadedState
       if (state is DataLoadedState) {
         List<Movie> currentMovies = getMoviesList(state, widget.movieListType);
-        // Determine the number of list items. Add one for the CircularProgressIndicator (when fetching data).
-        int itemCount = hasReachedMax(state, widget.movieListType)
-            ? currentMovies.length
-            : currentMovies.length + 1;
+        if (currentMovies.isNotEmpty) {
+          return ListView.separated(
+            controller: _scrollController,
+            separatorBuilder: (context, index) => const Divider(
+              height: 15, // Spacing between items
+              thickness: 0.5, // Divider width
+              endIndent: 20,
+              indent: 20,
+            ),
+            itemCount: currentMovies.length,
+            itemBuilder: (context, index) {
+              // If it's the extra item, return a CircularProgressIndicator (or a Containerif we have reached the max)
+              if (index >= currentMovies.length) {
+                return hasReachedMax(state, widget.movieListType)
+                    ? Container()
+                    : const Center(child: CircularProgressIndicator());
+              }
 
-        return ListView.separated(
-          controller: _scrollController,
-          separatorBuilder: (context, index) => const Divider(
-            height: 15, // Spacing between items
-            thickness: 0.5, // Divider width
-            endIndent: 20,
-            indent: 20,
-          ),
-          itemCount: itemCount,
-          itemBuilder: (context, index) {
-            // If it's the extra item, return a CircularProgressIndicator
-            if (index >= currentMovies.length) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            // Individual ListTile (widget for each movie in the list)
-            Movie movie = currentMovies[index];
-
-            // InkWell to handle click on the whole row to move to movie details
-            return InkWell(
-              onTap: () {
-                context.push('/movie/${movie.id}', extra: movie);
-              },
-              // MovieRowWidget contains the display of every movie
-              child: MovieRowWidget(
-                  movie: movie, movieListType: widget.movieListType),
-            );
-          },
-        );
+              // Individual ListTile (widget for each movie in the list)
+              Movie movie = currentMovies[index];
+              return InkWell(
+                // InkWell to handle click on the whole row to move to movie details
+                onTap: () {
+                  context.push('/movie/${movie.id}', extra: movie);
+                },
+                // MovieRowWidget contains the display of every movie
+                child: MovieRowWidget(
+                    movie: movie, movieListType: widget.movieListType),
+              );
+            },
+          );
+        } else {
+          return const Center(
+            child: Text("Vous n'avez aucun film dans votre liste de souhait."),
+          );
+        }
       } else {
         return const Center(child: CircularProgressIndicator());
       }

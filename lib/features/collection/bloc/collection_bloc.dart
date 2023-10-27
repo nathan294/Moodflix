@@ -34,11 +34,16 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
           await repository.getWishedMovies(0, numberOfItemsPerFetch);
       List<Movie> ratedMovies =
           await repository.getRatedMovies(0, numberOfItemsPerFetch);
+
+      // Determine if max has been reached
+      bool hasReachedMaxRated = ratedMovies.length < numberOfItemsPerFetch;
+      bool hasReachedMaxWished = wishedMovies.length < numberOfItemsPerFetch;
+
       emit(DataLoadedState(
           wishedMovies: wishedMovies,
           ratedMovies: ratedMovies,
-          hasReachedMaxRated: false,
-          hasReachedMaxWished: false));
+          hasReachedMaxRated: hasReachedMaxRated,
+          hasReachedMaxWished: hasReachedMaxWished));
     } on Exception catch (e, s) {
       logger.e("Fatal log",
           error: e.toString(), stackTrace: s); // Log the error
