@@ -18,6 +18,7 @@ class MovieCard extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // Movie poster widget
           SizedBox(
             height: moviePosterHeight.toDouble(),
             child: Stack(children: [
@@ -31,13 +32,16 @@ class MovieCard extends StatelessWidget {
                   fadeOutDuration: const Duration(milliseconds: 30),
                 ),
               ),
+              // Chip containing user's rating
               // Only display Chip if rating is not null
               if (movie.userRating != null)
                 Positioned(
-                  top: 4,
+                  top: 8,
                   right: 8,
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    width: 35, // Fixed width
+                    height: 35, // Fixed height
+                    // padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: _fillColor(movie.userRating!),
                       border: Border.all(
@@ -46,17 +50,21 @@ class MovieCard extends StatelessWidget {
                       ),
                       shape: BoxShape.circle,
                     ),
-                    child: Text(
-                      movie.userRating.toString(),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold),
+                    child: Center(
+                      child: Text(
+                        movie.userRating.toString(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
             ]),
           ),
+
+          // Movie title
           Text(
             movie.title,
             overflow: TextOverflow.ellipsis,

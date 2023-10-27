@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moodflix/features/collection/widgets/movie_card.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
@@ -30,6 +31,8 @@ class MovieListCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
               height: calculatedHeight,
+
+              // Whole card
               child: Card(
                 elevation: 4,
                 child: Padding(
@@ -42,11 +45,14 @@ class MovieListCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // Card title
                           Text(
                             cardTitle,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
+
+                          // Button to view all movies
                           TextButton(
                             onPressed: () {
                               // Handle "Voir tout" click
@@ -56,6 +62,8 @@ class MovieListCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 5),
+
+                      // Horizontal scrollable view to display movies
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -65,7 +73,8 @@ class MovieListCard extends StatelessWidget {
                                     padding: const EdgeInsets.only(right: 14),
                                     child: GestureDetector(
                                       onTap: () {
-                                        // Handle movie click
+                                        context.push('/movie/${movie.id}',
+                                            extra: movie);
                                       },
                                       child: MovieCard(
                                         movie: movie,

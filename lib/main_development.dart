@@ -21,7 +21,7 @@ Future<void> main() async {
     flavorName: 'development',
     apiBaseUrl:
         // 'http://10.0.2.2:8000', // Localhost equivalent for mobile emulator
-        "http://192.168.1.27:9000/api", // For external device
+        "http://192.168.1.28:9000/api", // For external device
     // Change IP Address to local IP address on which your backend runs
     apiAnonKey: '',
     child: const MyApp(),
