@@ -1,92 +1,84 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moodflix/core/enum/movie_list_type.dart';
 import 'package:moodflix/features/collection/bloc/collection_bloc.dart';
-import 'package:moodflix/features/collection/widgets/rating_chip.dart';
+import 'package:moodflix/features/collection/functions/map_list_type.dart';
+import 'package:moodflix/features/collection/widgets/movie_row_widget.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
-class MoviesCompleteList extends StatelessWidget {
+class MoviesCompleteList extends StatefulWidget {
   final MovieListType movieListType;
   const MoviesCompleteList({super.key, required this.movieListType});
 
   @override
+  State<MoviesCompleteList> createState() => _MoviesCompleteListState();
+}
+
+class _MoviesCompleteListState extends State<MoviesCompleteList> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<CollectionBloc, CollectionState>(
-        builder: (context, state) {
+        builder: (context, CollectionState state) {
+      // Store the current state in a variable for use in the ScrollController
+      final currentState = state;
+
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (!hasReachedMax(currentState, widget.movieListType)) {
+            BlocProvider.of<CollectionBloc>(context)
+                .add(fetchEvent(widget.movieListType));
+          }
+        }
+      });
+
       // State will always be DataLoadedState
       if (state is DataLoadedState) {
+        List<Movie> currentMovies = getMoviesList(state, widget.movieListType);
+        // Determine the number of list items. Add one for the CircularProgressIndicator.
+        int itemCount = hasReachedMax(state, widget.movieListType)
+            ? currentMovies.length
+            : currentMovies.length + 1;
+
         return ListView.separated(
+          controller: _scrollController,
           separatorBuilder: (context, index) => const Divider(
             height: 15, // Spacing between items
             thickness: 0.5, // Divider width
             endIndent: 20,
             indent: 20,
           ),
-          itemCount: state.ratedMovies.length,
-
-          //
-          // Individual ListTile (widget for each movie in the list)
+          itemCount: itemCount,
           itemBuilder: (context, index) {
-            Movie movie = state.ratedMovies[index];
-            double leadingImageHeight = 130.0;
+            // If it's the extra item, return a CircularProgressIndicator
+            if (index >= currentMovies.length) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            // Individual ListTile (widget for each movie in the list)
+            Movie movie = currentMovies[index];
 
             // InkWell to handle click on the whole row to move to movie details
             return InkWell(
               onTap: () {
                 context.push('/movie/${movie.id}', extra: movie);
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-
-                // For every movie, we create a Row widget
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    // Leading Image (movie poster)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: CachedNetworkImage(
-                        width: leadingImageHeight * 2 / 3,
-                        height: leadingImageHeight,
-                        imageUrl: movie.posterPath,
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        fit: BoxFit.cover,
-                        fadeInDuration: const Duration(milliseconds: 90),
-                        fadeOutDuration: const Duration(milliseconds: 30),
-                      ),
-                    ),
-
-                    // Some spacing between the image and the text
-                    const SizedBox(width: 16),
-
-                    // Movie title
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            movie.title,
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Trailing Icon (or rating chip, depending of provided widget type)
-                    if (movieListType == MovieListType.wishedMovies)
-                      const Icon(
-                        Icons.bookmark_added_rounded,
-                        color: Colors.blueGrey,
-                      ),
-                    if (movieListType == MovieListType.ratedMovies)
-                      RatingChip(movie: movie),
-                  ],
-                ),
-              ),
+              child: MovieRowWidget(
+                  movie: movie, movieListType: widget.movieListType),
             );
           },
         );
