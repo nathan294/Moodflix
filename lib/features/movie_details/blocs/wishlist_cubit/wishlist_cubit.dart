@@ -15,10 +15,24 @@ class WishlistCubit extends Cubit<WishlistState> {
   final AppConfig config = getIt<AppConfig>();
 
   bool isAddedToWishlist; // initial wishlist status
+  bool isMovieRated; // only for initial status
   final int movieId; // movie ID
 
-  WishlistCubit({required this.isAddedToWishlist, required this.movieId})
-      : super(isAddedToWishlist ? WishlistAdded() : WishlistRemoved());
+  WishlistCubit(
+      {required this.isMovieRated,
+      required this.isAddedToWishlist,
+      required this.movieId})
+      : super(_init(isAddedToWishlist, isMovieRated));
+
+  static WishlistState _init(bool isAddedToWishlist, bool isMovieRated) {
+    if (isMovieRated) {
+      return WishlistUnavailable();
+    } else if (isAddedToWishlist) {
+      return WishlistAdded();
+    } else {
+      return WishlistRemoved();
+    }
+  }
 
   // Function to toggle wishlist
   Future<void> toggleWishlist({bool? isMovieRated}) async {
