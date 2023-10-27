@@ -16,6 +16,7 @@ class MoviesCompleteList extends StatefulWidget {
 }
 
 class _MoviesCompleteListState extends State<MoviesCompleteList> {
+  // Scroll controller will listen to scroll & will allow to fetch more data
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -23,6 +24,7 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
     super.initState();
   }
 
+  // Dispose the scroll controller to avoid memory leaks
   @override
   void dispose() {
     _scrollController.dispose();
@@ -36,6 +38,8 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
       // Store the current state in a variable for use in the ScrollController
       final currentState = state;
 
+      // ScrollController listener; when we arrive at the end of the list,
+      // fetch data if we're not at the max
       _scrollController.addListener(() {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
@@ -49,7 +53,7 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
       // State will always be DataLoadedState
       if (state is DataLoadedState) {
         List<Movie> currentMovies = getMoviesList(state, widget.movieListType);
-        // Determine the number of list items. Add one for the CircularProgressIndicator.
+        // Determine the number of list items. Add one for the CircularProgressIndicator (when fetching data).
         int itemCount = hasReachedMax(state, widget.movieListType)
             ? currentMovies.length
             : currentMovies.length + 1;
@@ -77,13 +81,14 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
               onTap: () {
                 context.push('/movie/${movie.id}', extra: movie);
               },
+              // MovieRowWidget contains the display of every movie
               child: MovieRowWidget(
                   movie: movie, movieListType: widget.movieListType),
             );
           },
         );
       } else {
-        return const CircularProgressIndicator();
+        return const Center(child: CircularProgressIndicator());
       }
     });
   }

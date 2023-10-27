@@ -20,6 +20,7 @@ class MovieRowWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
+          // Movie poster (leading image)
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: CachedNetworkImage(
@@ -33,6 +34,8 @@ class MovieRowWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
+
+          // Movie title and release year
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,6 +56,8 @@ class MovieRowWidget extends StatelessWidget {
               ],
             ),
           ),
+
+          // User rating or Wishlist icon (trailing)
           if (movieListType == MovieListType.wishedMovies)
             const Icon(
               Icons.bookmark_added_rounded,

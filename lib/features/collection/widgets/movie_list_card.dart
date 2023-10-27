@@ -27,7 +27,7 @@ class MovieListCard extends StatelessWidget {
         double calculatedHeight = (scaffoldBodyHeight / 2) - padding.vertical;
 
         // Update the moviePosterHeight based on the calculated height.
-        int moviePosterHeight = (calculatedHeight * 1.3).toInt();
+        double moviePosterHeight = (calculatedHeight * 1.3);
         return Padding(
           padding: padding,
           child: Padding(

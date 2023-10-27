@@ -24,7 +24,7 @@ class RatingChip extends StatelessWidget {
         color: fillColor(movie.userRating!, opacity),
         border: Border.all(
           color: Colors.black.withOpacity(0.5),
-          width: 1.0,
+          width: 0.3,
         ),
         shape: BoxShape.circle,
       ),
