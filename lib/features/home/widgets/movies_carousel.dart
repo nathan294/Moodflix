@@ -12,17 +12,16 @@ class MoviesCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double itemHeight = 230.0; // Global item height
-    double padding = 8.0; // Padding around the image
-    double titleHeight = 12.0; // Approximate Text height with fontSize 12
     double spacingTitleAndPoster =
-        5; // Space between widget title and poster images
-    double spacing = 3.0; // Space between image and title
-    double posterHeight = itemHeight -
-        (2 * padding) -
-        titleHeight -
-        spacing -
-        spacingTitleAndPoster;
+        4; // Space between widget title and poster images
+
+    double itemHeight = 230.0; // Movie item height
+    double spacing = 3.0; // Space between image and movie title
+    double horizontalPadding = 8.0; // Padding around the image
+    double verticalPadding = 1.0;
+    double movieTitleHeight = 12.0; // Approximate Text height with fontSize 12
+    double posterHeight =
+        itemHeight - (2 * verticalPadding) - movieTitleHeight - spacing - 5;
     double posterWidth = posterHeight * (2 / 3); // Calculate the poster width
 
     return Column(
@@ -50,7 +49,8 @@ class MoviesCarousel extends StatelessWidget {
                   context.push('/movie/${movie.id}', extra: movie);
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(padding),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: horizontalPadding, vertical: verticalPadding),
                   child: Column(
                     children: [
                       // Movie poster
@@ -76,7 +76,7 @@ class MoviesCarousel extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: movieTitleHeight),
                         ),
                       ),
                     ],
