@@ -152,7 +152,7 @@ class RateButtonState extends State<RateButton> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                        width: 1, color: Colors.black),
+                                        width: 0.4, color: Colors.black),
                                     color: selectedRating == e
                                         ? fillColor(
                                             selectedRating!.toDouble(), 1.0)
@@ -174,19 +174,27 @@ class RateButtonState extends State<RateButton> {
                         ),
                       ),
                     ),
-                    clearClicked // Conditionally change the button based on the state
-                        ? FilledButton(
-                            child: const Text('Supprimer la note'),
-                            onPressed: () {
-                              Navigator.pop(context, selectedRating);
-                            },
-                          )
-                        : ElevatedButton(
-                            child: const Text('Valider'),
-                            onPressed: () {
-                              Navigator.pop(context, selectedRating);
-                            },
-                          ),
+                    if (clearClicked)
+                      FilledButton(
+                        child: const Text('Supprimer la note'),
+                        onPressed: () {
+                          Navigator.pop(context, selectedRating);
+                        },
+                      )
+                    else if (selectedRating != null && selectedRating! > 0)
+                      FilledButton(
+                        child: const Text('Valider'),
+                        onPressed: () {
+                          Navigator.pop(context, selectedRating);
+                        },
+                      )
+                    else if (selectedRating == null)
+                      ElevatedButton(
+                        child: const Text('Valider'),
+                        onPressed: () {
+                          Navigator.pop(context, selectedRating);
+                        },
+                      ),
                   ],
                 ),
               ),

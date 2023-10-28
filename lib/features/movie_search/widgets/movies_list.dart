@@ -73,7 +73,7 @@ class MoviesList extends StatelessWidget {
                         Text(
                           movie.title,
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
+                              fontSize: 16, fontWeight: FontWeight.w600),
                           overflow: TextOverflow
                               .ellipsis, // Add ellipsis for long text
                           maxLines: 2, // Limit to one line
@@ -83,7 +83,7 @@ class MoviesList extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
