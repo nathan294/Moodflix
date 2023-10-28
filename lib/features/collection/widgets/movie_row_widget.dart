@@ -13,7 +13,7 @@ class MovieRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double leadingImageHeight = 130.0;
+    double leadingImageHeight = 105.0;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -42,14 +42,14 @@ class MovieRowWidget extends StatelessWidget {
               children: [
                 Text(
                   movie.title,
-                  style: const TextStyle(fontSize: 19),
+                  style: const TextStyle(fontSize: 16),
                   overflow: TextOverflow.ellipsis, // Add ellipsis for long text
                   maxLines: 2, // Limit to one line
                 ),
                 Text(
                   movie.releaseYear.toString(),
                   style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       color: Colors.grey,
                       fontWeight: FontWeight.bold),
                 ),
@@ -61,7 +61,6 @@ class MovieRowWidget extends StatelessWidget {
           if (movieListType == MovieListType.wishedMovies)
             const Icon(
               Icons.bookmark_added_rounded,
-              color: Colors.blueGrey,
             ),
           if (movieListType == MovieListType.ratedMovies)
             RatingChip(movie: movie),

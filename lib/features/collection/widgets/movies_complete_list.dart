@@ -52,6 +52,12 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
         builder: (context, CollectionState state) {
       if (state is DataLoadedState) {
         List<Movie> currentMovies = getMoviesList(state, widget.movieListType);
+
+        // Determine the number of list items. Add one for the CircularProgressIndicator (when fetching data).
+        int itemCount = hasReachedMax(state, widget.movieListType)
+            ? currentMovies.length
+            : currentMovies.length + 1;
+
         if (currentMovies.isNotEmpty) {
           return ListView.separated(
             controller: _scrollController,
@@ -61,7 +67,7 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
               endIndent: 20,
               indent: 20,
             ),
-            itemCount: currentMovies.length,
+            itemCount: itemCount,
             itemBuilder: (context, index) {
               // If it's the extra item, return a CircularProgressIndicator (or a Containerif we have reached the max)
               if (index >= currentMovies.length) {
