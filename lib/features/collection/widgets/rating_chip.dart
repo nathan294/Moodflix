@@ -21,7 +21,7 @@ class RatingChip extends StatelessWidget {
       height: height, // Fixed height
       // padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: fillColor(movie.userRating!, opacity),
+        color: fillColor(movie.userRating!.toDouble(), opacity),
         border: Border.all(
           color: Colors.black.withOpacity(0.5),
           width: 0.3,

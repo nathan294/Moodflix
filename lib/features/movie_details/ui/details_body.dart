@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:moodflix/features/movie_details/blocs/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/ui/buttons_row.dart';
 import 'package:moodflix/features/movie_details/widgets/movie_title_row.dart';
@@ -16,12 +17,25 @@ List<Widget> buildBody(Movie movie, DataLoadedState state) {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: ButtonsRow(movie: movie, state: state),
           ),
-          Text(state.genreNames.join(', '),
-              style: const TextStyle(fontStyle: FontStyle.italic)),
-          Text(
-            "Date de sortie : ${movie.releaseDate.toString()}\n",
+          const SizedBox(
+            height: 8,
           ),
-          Text("Synopsis : ${movie.overview}"),
+          Text(state.genreNames.join(', '),
+              style: const TextStyle(
+                  color: Colors.grey, fontWeight: FontWeight.w600)),
+          Text(
+            DateFormat('d MMMM y', 'fr_FR')
+                .format(DateTime.parse(movie.releaseDate)),
+            style: const TextStyle(
+                color: Colors.grey, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(
+            movie.overview,
+            style: const TextStyle(fontWeight: FontWeight.w400),
+          ),
         ],
       ),
     ),
