@@ -20,6 +20,9 @@ class HomeBody extends StatelessWidget {
               children: [
                 PopularCarousel(
                     movies: state.popularMovies, listTitle: "À la une"),
+                const SizedBox(
+                  height: 10,
+                ),
                 const Divider(
                   height: 1,
                   thickness: 0.5,

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class LoggingInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print('REQUEST[${options.method}] => PATH: ${options.path}');
+    print('REQUEST[${options.method}] => PATH: ${options.uri.toString()}');
     return super.onRequest(options, handler);
   }
 

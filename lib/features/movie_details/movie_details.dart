@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
-import 'package:moodflix/features/movie_details/bloc/details_bloc.dart';
+import 'package:moodflix/features/movie_details/blocs/bloc/details_bloc.dart';
 import 'package:moodflix/features/movie_details/ui/details_page.dart';
 
 class MovieDetails extends StatelessWidget {
@@ -12,8 +12,8 @@ class MovieDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => MovieDetailsBloc(context)
-          ..add(LoadDataEvent(genreIds: movie.genreIds)),
+        create: (_) =>
+            MovieDetailsBloc(movie)..add(LoadDataEvent(movie: movie)),
         child: MovieDetailsPage(
           movie: movie,
         ));

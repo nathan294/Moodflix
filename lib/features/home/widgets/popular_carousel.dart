@@ -45,7 +45,7 @@ class PopularCarousel extends StatelessWidget {
                   onTap: () {
                     context.push('/movie/${movie.id}', extra: movie);
                   },
-                  child: Stack(
+                  child: Column(
                     children: [
                       SizedBox(
                           height: imageHeight, // Height of the Image
@@ -57,27 +57,12 @@ class PopularCarousel extends StatelessWidget {
                             fadeInDuration: const Duration(milliseconds: 90),
                             fadeOutDuration: const Duration(milliseconds: 30),
                           )),
-
-                      Positioned(
-                        bottom: 25, // Set this to 0 to align to bottom
-                        left: 0, // Set this to 0 to align to left
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14.0, vertical: 8),
-                          child: Text(
-                            movie.title,
-                            overflow: TextOverflow
-                                .ellipsis, // Add ellipsis for long text
-                            // maxLines: 1, // Limit to one line
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.white, // Change text color to white
-                              fontWeight: FontWeight.bold, // Make text bold
-                            ),
-                          ),
-                        ),
-                      ),
-                      // Text('Average Note: ${movie.voteAverage}'),
+                      Text(movie.title,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500)),
                     ],
                   ),
                 );

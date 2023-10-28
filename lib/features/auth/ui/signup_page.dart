@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
+import 'package:moodflix/core/enum/auth_status.dart';
+import 'package:moodflix/core/injection.dart';
 import 'package:moodflix/features/auth/bloc/auth_bloc.dart';
 import 'package:moodflix/features/auth/validators/validators.dart';
+import 'package:moodflix/features/auth/widgets/email_field.dart';
+import 'package:moodflix/features/auth/widgets/password_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  SignUpPageState createState() => SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   String? email, password, confirmPassword;
@@ -21,14 +25,14 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        // User already registered. Redirect him to home screen
-        if (state is UserAlreadyCreatedState) {
-          context.go('/home');
-        }
-
-        // New user. Redirect him to onboarding screen
-        if (state is UserCreatedState) {
-          context.goNamed('onboarding');
+        // Auth Succeeded.
+        // Redirecting user to either onboarding or home, depending where he is a new user or not
+        if (state is AuthSuccessedState) {
+          if (state.status == AuthStatus.newUser) {
+            context.goNamed('onboarding');
+          } else {
+            context.go('/home');
+          }
         }
 
         //Show error message if any error occurs while verifying phone number and otp code
@@ -55,22 +59,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      decoration: const InputDecoration(labelText: 'Email'),
+                    MyEmailFormField(
+                      label: 'Email',
                       validator: validateEmail,
                       onSaved: (value) => email = value,
                     ),
-                    TextFormField(
-                      controller: _passwordController,
-                      decoration: const InputDecoration(labelText: 'Password'),
-                      obscureText: false,
-                      validator: validatePassword,
-                      onSaved: (value) => password = value,
-                    ),
-                    TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Confirm Password'),
-                      obscureText: false,
+                    MyPasswordFormField(
+                        label: 'Password',
+                        controller: _passwordController,
+                        validator: validatePassword,
+                        onSaved: (value) {
+                          password = value;
+                        }),
+                    MyPasswordFormField(
+                      label: 'Confirm Password',
                       validator: (value) => validateConfirmPassword(
                           value, _passwordController.text),
                       onSaved: (value) => confirmPassword = value,
@@ -85,8 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            context
-                                .read<Logger>()
+                            getIt<Logger>()
                                 .i("Email: $email, Password: $password");
 
                             // Trigger the bloc sign up event

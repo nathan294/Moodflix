@@ -16,7 +16,7 @@ Future<void> main() async {
   var configuredApp = AppConfig(
     appName: 'Moodflix',
     flavorName: 'production',
-    apiBaseUrl: 'http://163.172.164.250:9000',
+    apiBaseUrl: 'http://163.172.164.250:9000/api',
     apiAnonKey: '',
     child: const MyApp(),
   );

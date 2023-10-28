@@ -16,15 +16,15 @@ class BlocProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = auth_bloc.AuthBloc(context);
-    final homePageBloc = home_bloc.HomeBloc(context)
-      ..add(home_bloc.LoadDataEvent());
-    final profileBloc = profile_bloc.ProfileBloc()
-      ..add(profile_bloc.LoadDataEvent());
-    final collectionBloc = collection_bloc.CollectionBloc()
-      ..add(collection_bloc.LoadDataEvent());
-    final discoverBloc = discover_bloc.DiscoverBloc()
-      ..add(discover_bloc.LoadDataEvent());
+    final authBloc = auth_bloc.AuthBloc();
+    final homePageBloc = home_bloc.HomeBloc();
+    // ..add(home_bloc.LoadDataEvent());
+    final profileBloc = profile_bloc.ProfileBloc();
+    // ..add(profile_bloc.LoadDataEvent());
+    final collectionBloc = collection_bloc.CollectionBloc();
+    // ..add(collection_bloc.LoadDataEvent());
+    final discoverBloc = discover_bloc.DiscoverBloc();
+    // ..add(discover_bloc.LoadDataEvent());
 
     return MultiBlocProvider(
       providers: [
@@ -34,7 +34,18 @@ class BlocProviders extends StatelessWidget {
         BlocProvider(create: (context) => collectionBloc),
         BlocProvider(create: (context) => discoverBloc),
       ],
-      child: child,
+      child: BlocListener<auth_bloc.AuthBloc, auth_bloc.AuthState>(
+        listener: (context, state) {
+          // When the user is connected, load the data
+          if (state is auth_bloc.AuthSuccessedState) {
+            homePageBloc.add(home_bloc.LoadDataEvent());
+            profileBloc.add(profile_bloc.LoadDataEvent());
+            collectionBloc.add(collection_bloc.LoadInitialData());
+            discoverBloc.add(discover_bloc.LoadDataEvent());
+          }
+        },
+        child: child,
+      ),
     );
   }
 }

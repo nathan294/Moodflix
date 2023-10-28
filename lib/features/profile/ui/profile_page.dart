@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moodflix/core/injection.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -17,12 +19,13 @@ class ProfilePage extends StatelessWidget {
               icon: const Icon(Icons.settings))
         ],
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Text("Profil de l'utilisateur"),
+            const Text("Connecté avec le compte"),
+            Text(getIt<FirebaseAuth>().currentUser?.email ?? "Unknown account"),
           ],
         ),
       ),
