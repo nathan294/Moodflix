@@ -62,25 +62,28 @@ class MoviesList extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Text and Other Info
+                // Movie title and release year
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           movie.title,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
                           overflow: TextOverflow
                               .ellipsis, // Add ellipsis for long text
-                          maxLines: 1,
-                          style: const TextStyle(
-                              fontSize: 16), // Limit to one line
+                          maxLines: 2, // Limit to one line
                         ),
                         Text(
-                          "${movie.releaseYear}",
-                          style: const TextStyle(fontSize: 11),
+                          movie.releaseYear.toString(),
+                          style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

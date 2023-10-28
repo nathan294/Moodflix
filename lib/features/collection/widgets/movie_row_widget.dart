@@ -64,7 +64,11 @@ class MovieRowWidget extends StatelessWidget {
               Icons.bookmark_added_rounded,
             ),
           if (movieListType == MovieListType.ratedMovies)
-            RatingChip(movie: movie),
+            RatingChip(
+              movie: movie,
+              width: 32,
+              height: 32,
+            ),
         ],
       ),
     );
