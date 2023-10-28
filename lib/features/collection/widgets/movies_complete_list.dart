@@ -63,7 +63,7 @@ class _MoviesCompleteListState extends State<MoviesCompleteList> {
             controller: _scrollController,
             separatorBuilder: (context, index) => const Divider(
               height: 15, // Spacing between items
-              thickness: 0.5, // Divider width
+              thickness: 0.35, // Divider width
               endIndent: 20,
               indent: 20,
             ),

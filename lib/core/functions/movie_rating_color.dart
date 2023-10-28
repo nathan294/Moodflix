@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color fillColor(int value, double? colorOpacity) {
+Color fillColor(double value, double? colorOpacity) {
   double opacity = (colorOpacity != null) ? colorOpacity : 1.0;
   if (value > 7) {
     return Colors.green.withOpacity(opacity);

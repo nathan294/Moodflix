@@ -13,7 +13,7 @@ class MovieRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double leadingImageHeight = 105.0;
+    double leadingImageHeight = 110.0;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -42,7 +42,8 @@ class MovieRowWidget extends StatelessWidget {
               children: [
                 Text(
                   movie.title,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500),
                   overflow: TextOverflow.ellipsis, // Add ellipsis for long text
                   maxLines: 2, // Limit to one line
                 ),

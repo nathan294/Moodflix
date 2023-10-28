@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moodflix/core/functions/movie_rating_color.dart';
 import 'package:moodflix/features/collection/bloc/collection_bloc.dart';
 import 'package:moodflix/features/movie_details/blocs/rating_cubit/rating_cubit.dart';
 import 'package:moodflix/features/movie_details/blocs/wishlist_cubit/wishlist_cubit.dart';
@@ -153,7 +154,8 @@ class RateButtonState extends State<RateButton> {
                                     border: Border.all(
                                         width: 1, color: Colors.black),
                                     color: selectedRating == e
-                                        ? _fillColor(selectedRating)
+                                        ? fillColor(
+                                            selectedRating!.toDouble(), 1.0)
                                         : Colors.grey,
                                   ),
                                   child: Center(
@@ -202,19 +204,5 @@ class RateButtonState extends State<RateButton> {
         BlocProvider.of<RatingCubit>(context).unrateMovie(initialRating);
       }
     });
-  }
-
-  Color _fillColor(int? selectedRating) {
-    if (selectedRating == null) {
-      return Colors.grey;
-    } else {
-      if (selectedRating > 7) {
-        return Colors.green;
-      } else if (selectedRating >= 5) {
-        return Colors.orange;
-      } else {
-        return Colors.red;
-      }
-    }
   }
 }

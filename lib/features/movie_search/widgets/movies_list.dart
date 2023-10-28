@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moodflix/core/functions/format_avg_note.dart';
+import 'package:moodflix/core/functions/movie_rating_color.dart';
 import 'package:moodflix/features/movie_search/models/movie.dart';
 
 class MoviesList extends StatelessWidget {
@@ -22,9 +24,10 @@ class MoviesList extends StatelessWidget {
       cacheExtent: itemCount * itemHeight,
       itemCount: itemCount,
       separatorBuilder: (context, index) => const Divider(
-        height: 5, // Adjust the height to control spacing
-        color: Color.fromARGB(
-            255, 205, 205, 205), // Optional: Set color for the divider
+        height: 10, // Spacing between items
+        thickness: 0.25, // Divider width
+        endIndent: 20,
+        indent: 20,
       ),
       itemBuilder: (BuildContext context, int index) {
         final movie = sortedMovies[index];
@@ -44,15 +47,18 @@ class MoviesList extends StatelessWidget {
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 20.0), // Add leading padding
-                  child: SizedBox(
-                    width: 60, // adjust the width as needed
-                    child: CachedNetworkImage(
-                      imageUrl: leadingImage,
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      fit: BoxFit.fitHeight,
-                      fadeInDuration: const Duration(milliseconds: 100),
-                      fadeOutDuration: const Duration(milliseconds: 30),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: SizedBox(
+                      width: 60, // adjust the width as needed
+                      child: CachedNetworkImage(
+                        imageUrl: leadingImage,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.fitHeight,
+                        fadeInDuration: const Duration(milliseconds: 90),
+                        fadeOutDuration: const Duration(milliseconds: 30),
+                      ),
                     ),
                   ),
                 ),
@@ -97,42 +103,16 @@ class MoviesList extends StatelessWidget {
     return Container(
       width: 30.0,
       decoration: BoxDecoration(
-        color: _fillColor(movie.voteAverage),
+        color: fillColor(movie.voteAverage, 1.0),
         shape: BoxShape.circle,
       ),
       child: Center(
         child: Text(
-          _fillAverageNoteValue(movie.voteAverage),
+          fillAverageNoteValue(movie.voteAverage),
           style:
               const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
-  }
-
-  Color _fillColor(double value) {
-    if (value > 7) {
-      return Colors.green;
-    } else if (value > 5) {
-      return Colors.orange;
-    } else {
-      return Colors.red;
-    }
-  }
-}
-
-String _fillAverageNoteValue(double voteAverage) {
-  // Convert the number to a String with 1 digit
-  String numberStr = voteAverage.toStringAsFixed(1);
-
-  // Split the string at the decimal point
-  List<String> parts = numberStr.split('.');
-  // Get the first digit after the decimal point
-  String decimalPart = parts[1];
-  int firstDecimalDigit = int.parse(decimalPart[0]);
-  if (firstDecimalDigit == 0) {
-    return voteAverage.toStringAsFixed(0);
-  } else {
-    return voteAverage.toStringAsFixed(1);
   }
 }
